@@ -1,6 +1,6 @@
 workspace "LITEC Engine"
     configurations { "Debug", "Release" }
-    startproject "SandBox"
+    startproject "Sandbox"
 
 project "LITEC"
     kind "SharedLib"
