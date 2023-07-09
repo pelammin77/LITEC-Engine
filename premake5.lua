@@ -8,9 +8,9 @@ project "LITEC"
     targetdir "bin/%{cfg.buildcfg}"
     objdir "bin-int/%{cfg.buildcfg}/LITEC"
 
-    files { "LITEC/src/**.h", "LITEC/src/**.c" }
+    files { "LITEC/src/**.h", "LITEC/src/**.c" , "libs/glad/src/glad.c","mylibs/Logger/src/Logger.c"  }
 
-    includedirs { "libs/glad/include", "libs/GLFW/include", "libs/Logger" }
+    includedirs { "libs/glad/include", "libs/GLFW/include", "mylibs/Logger/include" }
     libdirs { "libs/GLFW/lib-vc2019" }
 
     links { "glfw3", "OpenGL32" }
@@ -29,9 +29,9 @@ project "Sandbox"
     targetdir "bin/%{cfg.buildcfg}"
     objdir "bin-int/%{cfg.buildcfg}/Sandbox"
 
-    files { "Sandbox/src/**.h", "Sandbox/src/**.c", "libs/glad/src/glad.c" }
+    files { "Sandbox/src/**.h", "Sandbox/src/**.c", "libs/glad/src/glad.c", "mylibs/Logger/src/Logger.c" }
 
-    includedirs { "libs/glad/include", "libs/GLFW/include", "LITEC/src", "libs/Logger"  }
+    includedirs { "libs/glad/include", "libs/GLFW/include", "LITEC/src", "mylibs/Logger/include" }
     libdirs { "libs/GLFW/lib-vc2019", "bin/%{cfg.buildcfg}" }
     
 
@@ -46,4 +46,4 @@ project "Sandbox"
     filter "configurations:Release"
         defines { "NDEBUG" }
         optimize "On"
-        postbuildcommands { "copy /Y \"$(SolutionDir)bin\\$(Configuration)\\LITEC.dll\" \"$(SolutionDir)bin\\$(Configuration)\"" }
+       

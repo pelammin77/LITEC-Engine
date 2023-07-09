@@ -4,4 +4,5 @@ del *.vcxproj
 del *.user
 del *.sln
 del *.filters
+del *.log
 PAUSE

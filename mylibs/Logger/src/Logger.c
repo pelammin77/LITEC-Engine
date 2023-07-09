@@ -1,12 +1,5 @@
-#ifndef LOGGER_H_INCLUDED
-#define LOGGER_H_INCLUDED
+ï»¿#include "Logger.h"
 
-#include <stdio.h>
-#include<stdarg.h>
-#include<string.h>
-#include<time.h>
-
-#define LOG_FILE "session.log"
 FILE* logfile = NULL; // Globaali tiedosto-osoitin, joka osoittaa logitiedostoon
 
 void log_msg(const char* level, const char* msg, va_list args)
@@ -20,7 +13,7 @@ void log_msg(const char* level, const char* msg, va_list args)
     vsprintf(out + strlen(out), msg, args);
 
     fprintf(logfile, "%s\n", out);
-    fprintf(stdout, "%s\n", out); // Voit poistaa tämän rivin, jos et halua tulostaa viestejä konsoliin
+    fprintf(stdout, "%s\n", out); // Voit poistaa tï¿½mï¿½n rivin, jos et halua tulostaa viestejï¿½ konsoliin
 }
 
 void init_logger()
@@ -71,5 +64,3 @@ void print_fatal_error(const char* msg, ...)
     close_logger();
     exit(1);
 }
-
-#endif // LOGGER_H_INCLUDED
