@@ -10,7 +10,7 @@ project "LITEC"
 
     files { "LITEC/src/**.h", "LITEC/src/**.c" }
 
-    includedirs { "libs/glad/include", "libs/GLFW/include" }
+    includedirs { "libs/glad/include", "libs/GLFW/include", "libs/Logger" }
     libdirs { "libs/GLFW/lib-vc2019" }
 
     links { "glfw3", "OpenGL32" }
@@ -31,7 +31,7 @@ project "Sandbox"
 
     files { "Sandbox/src/**.h", "Sandbox/src/**.c", "libs/glad/src/glad.c" }
 
-    includedirs { "libs/glad/include", "libs/GLFW/include", "LITEC/src" }
+    includedirs { "libs/glad/include", "libs/GLFW/include", "LITEC/src", "libs/Logger"  }
     libdirs { "libs/GLFW/lib-vc2019", "bin/%{cfg.buildcfg}" }
     
 

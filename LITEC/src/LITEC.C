@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include "LITEC.h"
+#include "Logger.h"
 
 static int running = 1;
 
 void LITEC_Init() {
-    printf("LITEC engine is starting. Welcome!\n");
+    init_logger();
+    print_info("LITEC engine is starting. Welcome!\n");
 }
 
 int LITEC_Running() {
@@ -12,18 +14,19 @@ int LITEC_Running() {
 }
 
 void LITEC_HandleInput() {
-    // Tähän tulee myöhemmin syötteiden käsittelykoodi.
+    // Tï¿½hï¿½n tulee myï¿½hemmin syï¿½tteiden kï¿½sittelykoodi.
 }
 
 void LITEC_Update() {
-    // Tähän tulee myöhemmin pelin päivityskoodi.
+    // Tï¿½hï¿½n tulee myï¿½hemmin pelin pï¿½ivityskoodi.
 }
 
 void LITEC_Render() {
-    // Tähän tulee myöhemmin piirtokoodi.
+    // Tï¿½hï¿½n tulee myï¿½hemmin piirtokoodi.
 }
 
 void LITEC_Shutdown() {
-    printf("LITEC engine is shutting down. Goodbye!\n");
+    print_info("LITEC engine is shutting down. Goodbye!\n");
     running = 0;
+    close_logger();
 }
