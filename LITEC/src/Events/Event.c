@@ -3,9 +3,10 @@
 #include "Event.h"
 #include <stdlib.h>
 
-void Event_Init(Event* event, EventType type) {
+void Event_Init(Event* event, EventType type, EventCategory category) {
     if (event != NULL) {
         event->type = type;
+        event->category =  category;
         event->data = NULL; // Alustetaan data NULL:ksi. Voit muuttaa tätä, jos tarpeen.
     }
 }
@@ -33,6 +34,15 @@ void* Event_GetData(Event* event) {
         return event->data;
     }
     return NULL;
+}
+
+EventCategory Event_GetCategory(const Event* event){
+    return event->category;
+
+}
+
+void Event_Set_category(Event* event, EventCategory category){
+    event->category = category; 
 }
 
 

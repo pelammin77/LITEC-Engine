@@ -45,9 +45,11 @@ typedef struct {
 } Event;
 
 
-void Event_Init(Event* event, EventType type);
-EventType Event_GetType(const Event* event) ;
+void Event_Init(Event* event, EventType type, EventCategory category);
+EventType Event_GetType(const Event* event);
+EventCategory Event_GetCategory(const Event* event);
 void Event_SetType(Event* event, EventType type); 
+void Event_Set_category(Event* event, EventCategory category);
 void Event_SetData(Event* event, void* data);
 void* Event_GetData(Event* event);
 
