@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="LITEC">
+      <UniqueIdentifier>{96BC870D-02D1-AFBE-CB52-531E3726ACEF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LITEC\src">
+      <UniqueIdentifier>{ADD5BBCD-1940-7044-627E-21EACE274E99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LITEC\src\Events">
+      <UniqueIdentifier>{F1BC6CE7-DDB5-8B39-06E8-70BEF23F6B45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sandbox">
+      <UniqueIdentifier>{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sandbox\src">
+      <UniqueIdentifier>{0B5AF88A-770F-7180-0004-6B576CB86784}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs">
+      <UniqueIdentifier>{2F149A7C-1B4B-9B0D-C437-8110B04D170F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\glad">
+      <UniqueIdentifier>{96DC3585-0247-EAFB-4B85-9BA1B72EC850}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs\glad\src">
+      <UniqueIdentifier>{ADF579AF-19B6-F5E5-E2F0-3E634E703AC2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="mylibs">
+      <UniqueIdentifier>{F5EAEB0E-E18C-16E5-CA47-2A39B6889D35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="mylibs\Logger">
+      <UniqueIdentifier>{247B6DDB-903B-E911-5976-328FC5F52DEE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="mylibs\Logger\src">
+      <UniqueIdentifier>{3B2B5A7E-A741-5814-F0B8-E3355C0E299C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="LITEC\src\Events\EventDispatcher.c">
+      <Filter>LITEC\src\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="Sandbox\src\main.c">
+      <Filter>Sandbox\src</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\glad\src\glad.c">
+      <Filter>libs\glad\src</Filter>
+    </ClCompile>
+    <ClCompile Include="mylibs\Logger\src\Logger.c">
+      <Filter>mylibs\Logger\src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

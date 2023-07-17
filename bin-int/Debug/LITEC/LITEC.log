@@ -1,0 +1,5 @@
+﻿  EventDispatcher.c
+C:\projektit\c_dev\LITEC_Engine\LITEC\src\Events\EventDispatcher.c(23,11): warning C4013: 'printf' undefined; assuming extern returning int
+  LITEC.C
+  Generating Code...
+  LITEC.vcxproj -> C:\projektit\c_dev\LITEC_Engine\bin\Debug\LITEC.dll

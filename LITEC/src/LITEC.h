@@ -1,3 +1,5 @@
+// LITEC.h
+
 #ifndef LITEC_H
 #define LITEC_H
 

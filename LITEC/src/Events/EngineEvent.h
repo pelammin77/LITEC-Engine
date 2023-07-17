@@ -1,7 +1,11 @@
+//EngineEvent.h
+
 #ifndef ENGINEEVENT_H
 #define ENGINEEVENT_H
 #include <time.h>
 #include "Event.h"
+
+
 
 typedef struct {
     Event base_event; // Perii Event-rakenteen

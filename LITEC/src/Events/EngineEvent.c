@@ -1,9 +1,13 @@
+//EngineEvent.c
+
+
 #include <stddef.h>  
 #include <time.h>
+#include<stdio.h>
 #include "EngineEvent.h"
 
 void EngineEvent_Init(EngineEvent* event, EventType type, EventCategory category) {
-    if (event != NULL) {
+    if (event != NULL) { 
         Event_Init(&event->base_event, type, category);
         // Alusta muut jäsenet tarpeen mukaan...
     }

@@ -29,7 +29,7 @@ project "Sandbox"
     targetdir "bin/%{cfg.buildcfg}"
     objdir "bin-int/%{cfg.buildcfg}/Sandbox"
 
-    files { "Sandbox/src/**.h", "Sandbox/src/**.c", "libs/glad/src/glad.c", "mylibs/Logger/src/Logger.c" }
+    files { "Sandbox/src/**.h", "Sandbox/src/**.c", "LITEC/src/Events/EventDispatcher.c","libs/glad/src/glad.c", "mylibs/Logger/src/Logger.c" }
 
     includedirs { "libs/glad/include", "libs/GLFW/include", "LITEC/src", "mylibs/Logger/include" }
     libdirs { "libs/GLFW/lib-vc2019", "bin/%{cfg.buildcfg}" }

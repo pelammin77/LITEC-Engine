@@ -2,9 +2,12 @@
 
 #include "Event.h"
 #include <stdlib.h>
+#include<stdio.h>
 
 void Event_Init(Event* event, EventType type, EventCategory category) {
     if (event != NULL) {
+        printf("Alustetaan base event");
+        
         event->type = type;
         event->category =  category;
         event->data = NULL; // Alustetaan data NULL:ksi. Voit muuttaa tätä, jos tarpeen.

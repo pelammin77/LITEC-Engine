@@ -1,4 +1,4 @@
-
+// LITEC.c
 
 
 
@@ -18,7 +18,7 @@ void LITEC_Init() {
     EngineEvent_Init(&engineStartEvent, EVENT_ENGINE_INITIALIZED, CATEGORY_ENGINE);
 
     // Lähetä tapahtuma järjestelmässä eteenpäin
-     EventDispatcher_DispatchEvent(&engineStartEvent.base_event);
+    EventDispatcher_DispatchEvent(&engineStartEvent.base_event);
 
 }
 
