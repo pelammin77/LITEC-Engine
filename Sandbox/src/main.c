@@ -20,12 +20,24 @@ int main() {
         {
             printf("Initlize engine\n");
             LITEC_Init();
+
+             // Luo ikkuna
+        LITEC_Window* window = LITEC_CreateWindow("My Game Window", 800, 600);
+        if (window == NULL) 
+        {
+            printf("Window creation failed!\n");
+            return 1;
+        }
+
+
+
+
         }
     // Pelisilmukka
     while (LITEC_Running()) {
         
         //LITEC_HandleInput();
-        //LITEC_Update();
+        LITEC_Update();
         //LITEC_Render();
     }
 

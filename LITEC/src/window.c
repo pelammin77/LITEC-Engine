@@ -1,8 +1,20 @@
+
+
 // window.c
 
-#include "window.h"
+#include"window.h"
 
 Window* Window_Create(int width, int height, const char* title) {
+    // Alusta GLFW-kirjasto.
+    if (!glfwInit()) {
+        // GLFW:n alustus epÃ¤onnistui.
+        printf("GLFW initialization failed!\n");
+        return NULL;
+    }
+
+   
+    
+    
     Window* window = malloc(sizeof(Window));
     window->width = width;
     window->height = height;
@@ -25,10 +37,10 @@ void Window_Destroy(Window* window) {
 }
 
 void Window_Update(Window* window) {
-    // Tee tarvittavat päivitystoiminnot tässä...
+    // Tee tarvittavat pï¿½ivitystoiminnot tï¿½ssï¿½...
 }
 
 void Window_Render(Window* window) {
-    // Tee tarvittavat renderöintitoiminnot tässä...
+    // Tee tarvittavat renderï¿½intitoiminnot tï¿½ssï¿½...
 }
 

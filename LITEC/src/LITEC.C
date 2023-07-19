@@ -31,6 +31,7 @@ void LITEC_HandleInput() {
 }
 
 void LITEC_Update() {
+    glfwPollEvents();
     // T�h�n tulee my�hemmin pelin p�ivityskoodi.
 }
 
@@ -50,4 +51,13 @@ void LITEC_Shutdown() {
     running = 0;
     close_logger();
 
+}
+
+LITEC_Window* LITEC_CreateWindow(const char* title, int width, int height) {
+    print_info("LITEC engine creates window");
+    return Window_Create(width, height, title);
+}
+
+void LITEC_DestroyWindow(LITEC_Window* window) {
+    Window_Destroy(window);
 }
