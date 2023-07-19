@@ -2,7 +2,7 @@
 .vscode/
 bin/
 bin-int/
-.sln
-.filters
-.vcxproj
+*.sln
+*.filters
+*.vcxproj
 
