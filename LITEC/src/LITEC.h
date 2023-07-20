@@ -17,10 +17,10 @@ extern "C" {
 
     typedef Window LITEC_Window;
 
-	LITEC_API void LITEC_Init(void);
+	LITEC_API void LITEC_Init(const char* title, int width, int height);
 	LITEC_API int LITEC_Running(void);
 	LITEC_API void LITEC_HandleInput(void);
-	LITEC_API void LITEC_Update(void);
+	LITEC_API void LITEC_Update();
 	LITEC_API void LITEC_Render(void);
 	LITEC_API void LITEC_Shutdown(void);
 	LITEC_API LITEC_Window* LITEC_CreateWindow(const char* title, int width, int height);

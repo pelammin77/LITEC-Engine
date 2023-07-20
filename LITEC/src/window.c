@@ -3,6 +3,16 @@
 // window.c
 
 #include"window.h"
+#include <glad/glad.h>
+#include<glfw3.h>
+
+
+
+
+void framebuffer_size_callback(GLFWwindow* glfwWindow, int width, int height) {
+    printf("framebuffer_size_callback called with width: %d, height: %d\n", width, height);
+    glViewport(0, 0, width, height);
+}
 
 Window* Window_Create(int width, int height, const char* title) {
     // Alusta GLFW-kirjasto.
@@ -11,19 +21,29 @@ Window* Window_Create(int width, int height, const char* title) {
         printf("GLFW initialization failed!\n");
         return NULL;
     }
-
-   
-    
-    
     Window* window = malloc(sizeof(Window));
     window->width = width;
     window->height = height;
     window->title = title;
+    
     window->glfwWindow = glfwCreateWindow(width, height, title, NULL, NULL);
+  
     if (!window->glfwWindow) {
         free(window);
         return NULL;
+    } 
+    glfwMakeContextCurrent(window->glfwWindow);
+   // glfwSetWindowSizeLimits(window->glfwWindow, width, height, width, height);
+
+     // Ladataan GLAD
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        printf("Failed to initialize GLAD\n");
+        return NULL;
     }
+
+   
+    glfwSetFramebufferSizeCallback(window->glfwWindow, framebuffer_size_callback);
+
     return window;
 }
 
@@ -37,10 +57,36 @@ void Window_Destroy(Window* window) {
 }
 
 void Window_Update(Window* window) {
-    // Tee tarvittavat p�ivitystoiminnot t�ss�...
+    
+   
+    
+    int width, height;
+    glfwGetFramebufferSize(window->glfwWindow, &width, &height);
+
+    // Jos ikkunan koko on muuttunut, päivitä se
+    if (window->width != width || window->height != height) {
+        window->width = width;
+        window->height = height;
+       // printf("Koko muuttuu");
+        //printf("Window size: width = %d, height = %d\n", window->width, window->height);
+        //printf("Window size: width = %d, height = %d\n", window->width, window->height);
+
+
+       // glViewport(0, 0, width, height); // Päivitetään näkymäportti.
+       
+    }
+    
 }
 
 void Window_Render(Window* window) {
-    // Tee tarvittavat render�intitoiminnot t�ss�...
+    int width, height;
+    
+    glfwGetFramebufferSize(window->glfwWindow, &width, &height);
+    glViewport(0, 0, width, height);
+
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Asetetaan taustaväri mustaksi.
+    glClear(GL_COLOR_BUFFER_BIT); // Tyhjennetään ikkuna.
+
 }
+
 

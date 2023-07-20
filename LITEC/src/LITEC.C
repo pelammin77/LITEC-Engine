@@ -9,16 +9,25 @@
 #include "Events/EventDispatcher.h"
 
 static int running = 1;
+static LITEC_Window* window = NULL;
 
-void LITEC_Init() {
+void LITEC_Init(const char* title, int width, int height) {
+    
+
+
+   
+    window = Window_Create(width, height,title);
+
+    if (window == NULL)
+    {
+        printf("Window creation failed!\n");
+        return;
+    }
+   
+    //glClear(GL_COLOR_BUFFER_BIT); // Tyhjennetään ikkuna.
     init_logger();
     print_info("LITEC engine is starting. Welcome!\n");
-    // Luo EngineEvent
-    EngineEvent engineStartEvent;
-    EngineEvent_Init(&engineStartEvent, EVENT_ENGINE_INITIALIZED, CATEGORY_ENGINE);
-
-    // Lähetä tapahtuma järjestelmässä eteenpäin
-    EventDispatcher_DispatchEvent(&engineStartEvent.base_event);
+    
 
 }
 
@@ -32,12 +41,19 @@ void LITEC_HandleInput() {
 
 void LITEC_Update() {
     glfwPollEvents();
+        Window_Update(window);
+        glfwSwapBuffers(window->glfwWindow);
+
+
+
     // T�h�n tulee my�hemmin pelin p�ivityskoodi.
 }
 
 void LITEC_Render() {
-    // T�h�n tulee my�hemmin piirtokoodi.
-}
+    Window_Render(window);
+    glfwSwapBuffers(window->glfwWindow); //lisäsin tämän rivin 
+
+       }
 
 void LITEC_Shutdown() {
     // Luo EngineEvent

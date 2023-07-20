@@ -13,23 +13,16 @@ void HandleEngineInitialized(Event* event) {
 
 
 int main() {
+    LITEC_Window* window;
     // Alusta LITEC-kirjasto ja  EventDispatcher
     EventDispatcher_Init();
         EventDispatcher_RegisterHandler(EVENT_ENGINE_INITIALIZED, HandleEngineInitialized);
         if (EventDispatcher_IsInitialized() && EventDispatcher_HasRegisteredHandlers()) 
         {
             printf("Initlize engine\n");
-            LITEC_Init();
+            LITEC_Init("My Game Window", 800, 600);
 
-             // Luo ikkuna
-        LITEC_Window* window = LITEC_CreateWindow("My Game Window", 800, 600);
-        if (window == NULL) 
-        {
-            printf("Window creation failed!\n");
-            return 1;
-        }
-
-
+        
 
 
         }
@@ -38,7 +31,7 @@ int main() {
         
         //LITEC_HandleInput();
         LITEC_Update();
-        //LITEC_Render();
+        LITEC_Render();
     }
 
     // Siivoa j�ljet
