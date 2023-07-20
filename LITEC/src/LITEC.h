@@ -3,7 +3,8 @@
 #ifndef LITEC_H
 #define LITEC_H
 
-#include "window.h"
+#include "Window/base_window.h"
+
 
 #ifdef LITEC_EXPORTS
 #define LITEC_API __declspec(dllexport)

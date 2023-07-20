@@ -13,23 +13,20 @@ static LITEC_Window* window = NULL;
 
 void LITEC_Init(const char* title, int width, int height) {
     
-
+    init_logger();
+    print_info("LITEC engine is starting. Welcome!\n");
 
    
-    window = Window_Create(width, height,title);
+    //window = Window_Create(width, height,title);
+    window = LITEC_CreateWindow(title, width, height);
 
     if (window == NULL)
     {
-        printf("Window creation failed!\n");
-        return;
+        print_fatal_error("Window creation failed!");
+       
+        return 1;
     }
-   
-    //glClear(GL_COLOR_BUFFER_BIT); // Tyhjennetään ikkuna.
-    init_logger();
-    print_info("LITEC engine is starting. Welcome!\n");
-    
-
-}
+ }
 
 int LITEC_Running() {
     return running;
@@ -62,6 +59,7 @@ void LITEC_Shutdown() {
     
     // Lähetä tapahtuma järjestelmässä eteenpäin
     EventDispatcher_DispatchEvent(&engineShutdownEvent.base_event);
+    init_logger();
 
     print_info("LITEC engine is shutting down. Goodbye!\n");
     running = 0;
@@ -70,7 +68,9 @@ void LITEC_Shutdown() {
 }
 
 LITEC_Window* LITEC_CreateWindow(const char* title, int width, int height) {
+    
     print_info("LITEC engine creates window");
+
     return Window_Create(width, height, title);
 }
 

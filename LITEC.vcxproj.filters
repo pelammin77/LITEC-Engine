@@ -10,6 +10,12 @@
     <Filter Include="LITEC\src\Events">
       <UniqueIdentifier>{F1BC6CE7-DDB5-8B39-06E8-70BEF23F6B45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LITEC\src\Input">
+      <UniqueIdentifier>{6C53AC9A-D8DE-195F-E1EF-9C534DFA755F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LITEC\src\Window">
+      <UniqueIdentifier>{F41D8310-E016-A262-0949-87E7F5A0816E}</UniqueIdentifier>
+    </Filter>
     <Filter Include="libs">
       <UniqueIdentifier>{2F149A7C-1B4B-9B0D-C437-8110B04D170F}</UniqueIdentifier>
     </Filter>
@@ -48,11 +54,17 @@
     <ClInclude Include="LITEC\src\Events\WindowEvent.h">
       <Filter>LITEC\src\Events</Filter>
     </ClInclude>
+    <ClInclude Include="LITEC\src\Input\keyboard.h">
+      <Filter>LITEC\src\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="LITEC\src\Input\mouse.h">
+      <Filter>LITEC\src\Input</Filter>
+    </ClInclude>
     <ClInclude Include="LITEC\src\LITEC.h">
       <Filter>LITEC\src</Filter>
     </ClInclude>
-    <ClInclude Include="LITEC\src\window.h">
-      <Filter>LITEC\src</Filter>
+    <ClInclude Include="LITEC\src\Window\base_window.h">
+      <Filter>LITEC\src\Window</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -74,11 +86,17 @@
     <ClCompile Include="LITEC\src\Events\WindowEvent.c">
       <Filter>LITEC\src\Events</Filter>
     </ClCompile>
+    <ClCompile Include="LITEC\src\Input\keyboard.c">
+      <Filter>LITEC\src\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="LITEC\src\Input\mouse.c">
+      <Filter>LITEC\src\Input</Filter>
+    </ClCompile>
     <ClCompile Include="LITEC\src\LITEC.C">
       <Filter>LITEC\src</Filter>
     </ClCompile>
-    <ClCompile Include="LITEC\src\window.c">
-      <Filter>LITEC\src</Filter>
+    <ClCompile Include="LITEC\src\Window\base_window.c">
+      <Filter>LITEC\src\Window</Filter>
     </ClCompile>
     <ClCompile Include="libs\glad\src\glad.c">
       <Filter>libs\glad\src</Filter>

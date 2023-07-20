@@ -2,7 +2,7 @@
 
 // window.c
 
-#include"window.h"
+#include"base_window.h"
 #include <glad/glad.h>
 #include<glfw3.h>
 
@@ -10,8 +10,8 @@
 
 
 void framebuffer_size_callback(GLFWwindow* glfwWindow, int width, int height) {
-    printf("framebuffer_size_callback called with width: %d, height: %d\n", width, height);
-    glViewport(0, 0, width, height);
+   // printf("framebuffer_size_callback called with width: %d, height: %d\n", width, height);
+
 }
 
 Window* Window_Create(int width, int height, const char* title) {
@@ -40,7 +40,8 @@ Window* Window_Create(int width, int height, const char* title) {
         printf("Failed to initialize GLAD\n");
         return NULL;
     }
-
+    glClearColor(0.0f, 0.0f, 170.0f / 255.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
    
     glfwSetFramebufferSizeCallback(window->glfwWindow, framebuffer_size_callback);
 
@@ -63,28 +64,24 @@ void Window_Update(Window* window) {
     int width, height;
     glfwGetFramebufferSize(window->glfwWindow, &width, &height);
 
-    // Jos ikkunan koko on muuttunut, päivitä se
+   
     if (window->width != width || window->height != height) {
         window->width = width;
         window->height = height;
-       // printf("Koko muuttuu");
-        //printf("Window size: width = %d, height = %d\n", window->width, window->height);
-        //printf("Window size: width = %d, height = %d\n", window->width, window->height);
-
-
-       // glViewport(0, 0, width, height); // Päivitetään näkymäportti.
+      
        
     }
     
 }
 
 void Window_Render(Window* window) {
+    glClear(GL_COLOR_BUFFER_BIT); // Tyhjennetään ikkuna.
     int width, height;
     
     glfwGetFramebufferSize(window->glfwWindow, &width, &height);
     glViewport(0, 0, width, height);
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Asetetaan taustaväri mustaksi.
+    glClearColor(0.0f, 0.0f, 170.0f / 255.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT); // Tyhjennetään ikkuna.
 
 }

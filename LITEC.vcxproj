@@ -98,8 +98,10 @@
     <ClInclude Include="LITEC\src\Events\KeyEvent.h" />
     <ClInclude Include="LITEC\src\Events\MouseEvent.h" />
     <ClInclude Include="LITEC\src\Events\WindowEvent.h" />
+    <ClInclude Include="LITEC\src\Input\keyboard.h" />
+    <ClInclude Include="LITEC\src\Input\mouse.h" />
     <ClInclude Include="LITEC\src\LITEC.h" />
-    <ClInclude Include="LITEC\src\window.h" />
+    <ClInclude Include="LITEC\src\Window\base_window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LITEC\src\Events\EngineEvent.c" />
@@ -108,8 +110,10 @@
     <ClCompile Include="LITEC\src\Events\KeyEvent.c" />
     <ClCompile Include="LITEC\src\Events\MouseEvent.c" />
     <ClCompile Include="LITEC\src\Events\WindowEvent.c" />
+    <ClCompile Include="LITEC\src\Input\keyboard.c" />
+    <ClCompile Include="LITEC\src\Input\mouse.c" />
     <ClCompile Include="LITEC\src\LITEC.C" />
-    <ClCompile Include="LITEC\src\window.c" />
+    <ClCompile Include="LITEC\src\Window\base_window.c" />
     <ClCompile Include="libs\glad\src\glad.c" />
     <ClCompile Include="mylibs\Logger\src\Logger.c" />
   </ItemGroup>
