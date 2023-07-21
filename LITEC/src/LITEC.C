@@ -6,15 +6,30 @@
 #include "LITEC.h"
 #include "Logger.h"
 #include "Events/EngineEvent.h"
+#include "Events/WindowEvent.h"
 #include "Events/EventDispatcher.h"
 
 static int running = 1;
 static LITEC_Window* window = NULL;
 
+void handleWindowOpenEvent(const Event* event) {
+    // Tarkistetaan, että tapahtuma on oikean tyyppinen
+    if (event->type == EVENT_WINDOW_OPEN) {
+        print_info("LITEC Engine created new window");
+       
+    }
+}
+
+
+
 void LITEC_Init(const char* title, int width, int height) {
-    
+
     init_logger();
+    EventDispatcher_Init();
+    
     print_info("LITEC engine is starting. Welcome!\n");
+   
+    EventDispatcher_RegisterHandler(EVENT_WINDOW_OPEN, handleWindowOpenEvent);
 
    
     //window = Window_Create(width, height,title);
@@ -72,8 +87,18 @@ void LITEC_Shutdown() {
 LITEC_Window* LITEC_CreateWindow(const char* title, int width, int height) {
     
     print_info("LITEC engine creates window");
+  
 
-    return Window_Create(width, height, title);
+    LITEC_Window* window = Window_Create(width, height, title);
+
+    // check that window is created 
+    if (window != NULL) {
+        WindowEvent event;
+        WindowEvent_Init(&event, EVENT_WINDOW_OPEN, CATEGORY_WINDOW);
+        EventDispatcher_DispatchEvent(&event.base_event);
+           }
+
+    return window;
 }
 
 void LITEC_DestroyWindow(LITEC_Window* window) {

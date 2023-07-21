@@ -26,6 +26,7 @@ extern "C" {
 	LITEC_API void LITEC_Shutdown(void);
 	LITEC_API LITEC_Window* LITEC_CreateWindow(const char* title, int width, int height);
 	LITEC_API void LITEC_DestroyWindow(LITEC_Window* window);
+	
 
 #ifdef __cplusplus
 }
