@@ -20,7 +20,6 @@ static size_t listenerCount;
 static size_t capacity;
 
 void EventDispatcher_Init() {
-    printf("Nollataan");
     EventListeners = NULL;
     EventCategories = NULL;
     listenerCount = 0;

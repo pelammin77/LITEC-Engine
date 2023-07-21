@@ -24,7 +24,7 @@ void LITEC_Init(const char* title, int width, int height) {
     {
         print_fatal_error("Window creation failed!");
        
-        return 1;
+        return ;
     }
  }
 
@@ -38,8 +38,10 @@ void LITEC_HandleInput() {
 
 void LITEC_Update() {
     glfwPollEvents();
-        Window_Update(window);
-        glfwSwapBuffers(window->glfwWindow);
+    Window_Update(window);
+    glfwSwapBuffers(window->glfwWindow);
+    LITEC_HandleInput();
+
 
 
 
