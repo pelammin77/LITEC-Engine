@@ -10,7 +10,7 @@ project "LITEC"
 
     files { "LITEC/src/**.h", "LITEC/src/**.c" , "libs/glad/src/glad.c","mylibs/Logger/src/Logger.c"  }
 
-    includedirs { "libs/glad/include", "libs/GLFW/include", "mylibs/Logger/include" }
+    includedirs { "libs/glad/include", "libs/GLFW/include", "mylibs/Logger/include", "LITEC/src/**", }
     libdirs { "libs/GLFW/lib-vc2019" }
 
     links { "glfw3", "OpenGL32" }

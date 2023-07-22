@@ -5,12 +5,23 @@
 #include"base_window.h"
 #include <glad/glad.h>
 #include<glfw3.h>
+#include"WindowEvent.h"
+
 
 
 
 
 void framebuffer_size_callback(GLFWwindow* glfwWindow, int width, int height) {
    // printf("framebuffer_size_callback called with width: %d, height: %d\n", width, height);
+    WindowEvent event;
+
+    WindowEvent_Init(&event, EVENT_WINDOW_RESIZE, CATEGORY_WINDOW);
+    event.width = width;
+    event.height = height;
+    //send event 
+    EventDispatcher_DispatchEvent(&event.base_event);
+   
+
 
 }
 

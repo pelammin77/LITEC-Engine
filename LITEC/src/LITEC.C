@@ -18,7 +18,25 @@ void handleWindowOpenEvent(const Event* event) {
         print_info("LITEC Engine created new window");
        
     }
+
+    if (event->type == EVENT_WINDOW_RESIZE) {
+        // Tulosta uudet ikkunan mitat
+        print_info("Window resized event");
+        // printf("framebuffer_size_callback called with width: %d, height: %d\n", event.width, event.height);
+        
+        // Muuta sovelluksen asetuksia tarvittaessa...
+    }
 }
+
+void handleWindowResizeEvent(const Event* event) {
+    // Tarkista että tapahtuma on oikean tyyppinen
+    if (event->type == EVENT_WINDOW_RESIZE) {
+        // Tulosta uudet ikkunan mitat
+        print_info("Window resized event triggered");
+        // Muuta sovelluksen asetuksia tarvittaessa...
+    }
+}
+
 
 
 
@@ -28,8 +46,11 @@ void LITEC_Init(const char* title, int width, int height) {
     EventDispatcher_Init();
     
     print_info("LITEC engine is starting. Welcome!\n");
+    EventDispatcher_RegisterHandler(EVENT_WINDOW_RESIZE, handleWindowResizeEvent);
+   
    
     EventDispatcher_RegisterHandler(EVENT_WINDOW_OPEN, handleWindowOpenEvent);
+   
 
    
     //window = Window_Create(width, height,title);
@@ -96,7 +117,12 @@ LITEC_Window* LITEC_CreateWindow(const char* title, int width, int height) {
         WindowEvent event;
         WindowEvent_Init(&event, EVENT_WINDOW_OPEN, CATEGORY_WINDOW);
         EventDispatcher_DispatchEvent(&event.base_event);
+        
            }
+
+   
+
+
 
     return window;
 }
