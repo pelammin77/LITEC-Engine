@@ -86,7 +86,7 @@ void LITEC_Shutdown() {
 
 LITEC_Window* LITEC_CreateWindow(const char* title, int width, int height) {
     
-    print_info("LITEC engine creates window");
+ 
   
 
     LITEC_Window* window = Window_Create(width, height, title);

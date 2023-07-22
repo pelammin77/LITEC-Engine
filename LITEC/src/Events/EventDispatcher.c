@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "EventDispatcher.h"
 #include <stdbool.h>
+#include<stdio.h>
 
 
 int isInitialized = 0;
@@ -24,12 +25,11 @@ void EventDispatcher_Init() {
     EventCategories = NULL;
     listenerCount = 0;
     capacity = 0;
-    printf("listenerCount initialized\n");
     isInitialized = 1;
 }
 
 void EventDispatcher_AddListener(void (*EventListener)(Event*)) {
-    printf("Lisätään");
+    
     // Tarkista, onko kapasiteetti riittävä. Jos ei, kasvatetaan sitä.
     if (listenerCount >= capacity) {
         capacity = capacity == 0 ? 1 : capacity * 2; // Käytä geometrista kasvua: jos kapasiteetti on 0, aseta se 1:ksi, muutoin tuplaa se.
@@ -64,23 +64,15 @@ void EventDispatcher_DispatchEvent(Event* event) {
         printf("Error: Attempted to dispatch an event before initialization was complete.\n");
         return;
     }
-    
-    printf("Dispatching event\n");
-    printf("Tapahtuma!!\n ");
-    //printf("Current listener count: %zu\n", listenerCount);
-    // Lähetetään tapahtuma kaikille kuuntelijoille, jotka on rekisteröity kyseiseen kategoriaan
-    //printf("Current listener lkm: %d\n", lkm);
     for (size_t i = 0; i < listenerCount; i++) {
-        printf("Checking listener %zu\n", i);
         if(EventCategories[i] == event->category){
-            printf("Sending event to listener %zu\n", i);
             EventListeners[i](event);
         }
     }
-    printf("Finished dispatching event\n");
+ 
 }
 void EventDispatcher_RegisterHandler(EventCategory category, void (*EventHandler)(Event*)) {
-    printf("EventDispatcher_RegisterHandler called with category: %d\n", category);
+   
 
     // Lisätään uusi käsittelijä ja sen kategoria taulukkoihin
     void* tempListeners = realloc(EventListeners, (listenerCount + 1) * sizeof(*EventListeners));
@@ -105,15 +97,9 @@ void EventDispatcher_RegisterHandler(EventCategory category, void (*EventHandler
 
     listenerCount++;
     // Tulostetaan kuuntelijoiden ja kategorioiden taulukot
-    printf("EventListeners:\n");
-    for (size_t i = 0; i < listenerCount; i++) {
-        printf("%p ", (void*)EventListeners[i]);
-    }
-    printf("\nEventCategories:\n");
-    for (size_t i = 0; i < listenerCount; i++) {
-        printf("%d ", EventCategories[i]);
-    }
-    printf("\n");
+    
+    
+   
 }
 
 

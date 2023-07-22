@@ -6,7 +6,7 @@
 
 void Event_Init(Event* event, EventType type, EventCategory category) {
     if (event != NULL) {
-        printf("Alustetaan base event");
+       
         
         event->type = type;
         event->category =  category;

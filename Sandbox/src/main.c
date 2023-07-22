@@ -13,12 +13,8 @@ void HandleEngineInitialized(Event* event) {
 
 
 int main() {
-    // Alusta LITEC-kirjasto ja  EventDispatcher
-    //EventDispatcher_Init();
-        //EventDispatcher_RegisterHandler(EVENT_ENGINE_INITIALIZED, HandleEngineInitialized);
-       // if (EventDispatcher_IsInitialized() && EventDispatcher_HasRegisteredHandlers()) 
-        
-            printf("Initlize engine\n");
+    
+            
             LITEC_Init("My Game Window", 800, 600);
             
     // Pelisilmukka
