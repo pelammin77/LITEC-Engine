@@ -1,8 +1,28 @@
+# Windows & Visual Studio
 .vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+
+# VS Code
 .vscode/
+
+# Build directories
 bin/
 bin-int/
-*.sln
-*.filters
-*.vcxproj
+
+# Premake-generated
+Makefile
+*.make
+
+# Editor/IDE-specific
+*.user
+*.log
+
+# OS X
+.DS_Store
+
+# Linux/Unix
+*.swp
+*~
 

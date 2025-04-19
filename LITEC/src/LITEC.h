@@ -5,11 +5,14 @@
 
 #include "Window/base_window.h"
 
-
-#ifdef LITEC_EXPORTS
-#define LITEC_API __declspec(dllexport)
+#ifdef _WIN32
+    #ifdef LITEC_EXPORTS
+        #define LITEC_API __declspec(dllexport)
+    #else
+        #define LITEC_API __declspec(dllimport)
+    #endif
 #else
-#define LITEC_API __declspec(dllimport)
+    #define LITEC_API
 #endif
 
 #ifdef __cplusplus
@@ -18,15 +21,14 @@ extern "C" {
 
     typedef Window LITEC_Window;
 
-	LITEC_API void LITEC_Init(const char* title, int width, int height);
-	LITEC_API int LITEC_Running(void);
-	LITEC_API void LITEC_HandleInput(void);
-	LITEC_API void LITEC_Update();
-	LITEC_API void LITEC_Render(void);
-	LITEC_API void LITEC_Shutdown(void);
-	LITEC_API LITEC_Window* LITEC_CreateWindow(const char* title, int width, int height);
-	LITEC_API void LITEC_DestroyWindow(LITEC_Window* window);
-	
+    LITEC_API void LITEC_Init(const char* title, int width, int height);
+    LITEC_API int LITEC_Running(void);
+    LITEC_API void LITEC_HandleInput(void);
+    LITEC_API void LITEC_Update();
+    LITEC_API void LITEC_Render(void);
+    LITEC_API void LITEC_Shutdown(void);
+    LITEC_API LITEC_Window* LITEC_CreateWindow(const char* title, int width, int height);
+    LITEC_API void LITEC_DestroyWindow(LITEC_Window* window);
 
 #ifdef __cplusplus
 }
