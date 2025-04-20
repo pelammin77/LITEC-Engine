@@ -21,7 +21,7 @@ project "LITEC"
         "libs/glad/include",
         "libs/GLFW/include",
         "mylibs/Logger/include",
-        "LITEC/src/**" -- sisältää kaikki headerit myös alihakemistoista
+        "LITEC/src"
     }
 
     filter "system:windows"
@@ -36,11 +36,11 @@ project "LITEC"
         buildoptions { "-Wall", "-Wextra" }
 
     filter "configurations:Debug"
-        defines { "DEBUG" }
+        defines { "DEBUG", "LITEC_EXPORTS" } -- tärkeä: exports vain LITEC-projektiin!
         symbols "On"
 
     filter "configurations:Release"
-        defines { "NDEBUG" }
+        defines { "NDEBUG", "LITEC_EXPORTS" }
         optimize "On"
 
 project "Sandbox"
@@ -49,17 +49,13 @@ project "Sandbox"
 
     files {
         "Sandbox/src/**.h",
-        "Sandbox/src/**.c",
-        "LITEC/src/Events/EventDispatcher.c",
-        "libs/glad/src/glad.c",
-        "mylibs/Logger/src/Logger.c"
+        "Sandbox/src/**.c"
     }
 
     includedirs {
         "libs/glad/include",
         "libs/GLFW/include",
-        "LITEC/src",       -- sisältää esim. LITEC.h
-        "LITEC/src/**",    -- sisältää kaikki alihakemistot
+        "LITEC/src",
         "mylibs/Logger/include"
     }
 
@@ -75,8 +71,7 @@ project "Sandbox"
     filter "system:linux"
         defines { "LITEC_PLATFORM_LINUX" }
         links { "glfw", "GL", "m", "dl" }
-        libdirs { "bin/%{cfg.buildcfg}" }  -- ⬅️ lisää tämä!
-
+        libdirs { "bin/%{cfg.buildcfg}" }
 
     filter "configurations:Debug"
         defines { "DEBUG" }
