@@ -21,7 +21,7 @@ project "LITEC"
         "libs/glad/include",
         "libs/GLFW/include",
         "mylibs/Logger/include",
-        "LITEC/src"
+        "LITEC/src/**"
     }
 
     filter "system:windows"
