@@ -12,13 +12,13 @@
 static int running = 1;
 static LITEC_Window* window = NULL;
 
-void handleWindowOpenEvent(const Event* event) {
+void handleWindowOpenEvent(Event* event) {
     // Tarkistetaan, että tapahtuma on oikean tyyppinen
     if (event->type == EVENT_WINDOW_OPEN) {
         print_info("LITEC Engine created new window");
        
     }
-
+    /*
     if (event->type == EVENT_WINDOW_RESIZE) {
         // Tulosta uudet ikkunan mitat
         print_info("Window resized event");
@@ -26,16 +26,23 @@ void handleWindowOpenEvent(const Event* event) {
         
         // Muuta sovelluksen asetuksia tarvittaessa...
     }
-}
+    */
+    }
 
-void handleWindowResizeEvent(const Event* event) {
-    // Tarkista että tapahtuma on oikean tyyppinen
+
+void handleWindowResizeEvent(Event* event) {
     if (event->type == EVENT_WINDOW_RESIZE) {
-        // Tulosta uudet ikkunan mitat
-        print_info("Window resized event triggered");
-        // Muuta sovelluksen asetuksia tarvittaessa...
+        WindowEvent* windowEvent = (WindowEvent*)event;
+
+        char buffer[128];
+        snprintf(buffer, sizeof(buffer),
+            "Window resized: width=%d, height=%d",
+            windowEvent->width, windowEvent->height);
+
+        print_info(buffer);
     }
 }
+
 
 
 
@@ -46,10 +53,11 @@ void LITEC_Init(const char* title, int width, int height) {
     EventDispatcher_Init();
     
     print_info("LITEC engine is starting. Welcome!\n");
-    EventDispatcher_RegisterHandler(EVENT_WINDOW_RESIZE, handleWindowResizeEvent);
-   
-   
-    EventDispatcher_RegisterHandler(EVENT_WINDOW_OPEN, handleWindowOpenEvent);
+    EventDispatcher_RegisterHandler(CATEGORY_WINDOW, handleWindowResizeEvent);
+    EventDispatcher_RegisterHandler(CATEGORY_WINDOW, handleWindowOpenEvent);
+
+    //EventDispatcher_RegisterHandler(EVENT_WINDOW_RESIZE, handleWindowResizeEvent);
+    //EventDispatcher_RegisterHandler(EVENT_WINDOW_OPEN, handleWindowOpenEvent);
    
 
    
