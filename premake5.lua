@@ -8,12 +8,28 @@ project "LITEC"
     targetdir "bin/%{cfg.buildcfg}"
     objdir "bin-int/%{cfg.buildcfg}/LITEC"
 
-    files { "LITEC/src/**.h", "LITEC/src/**.c" , "libs/glad/src/glad.c","mylibs/Logger/src/Logger.c"  }
+    files {
+        "LITEC/src/**.h",
+        "LITEC/src/**.c",
+        "libs/glad/src/glad.c",
+        "mylibs/Logger/src/Logger.c"
+    }
 
-    includedirs { "libs/glad/include", "libs/GLFW/include", "mylibs/Logger/include", "LITEC/src/**", }
-    libdirs { "libs/GLFW/lib-vc2019" }
+    includedirs {
+        "LITEC/src",
+        "libs/glad/include",
+        "libs/GLFW/include",
+        "mylibs/Logger/include"
+    }
 
-    links { "glfw3", "OpenGL32" }
+    libdirs {
+        "libs/GLFW/lib-vc2019"
+    }
+
+    links {
+        "glfw3",
+        "OpenGL32"
+    }
 
     filter "configurations:Debug"
         defines { "DEBUG", "LITEC_EXPORTS" }
@@ -29,21 +45,32 @@ project "Sandbox"
     targetdir "bin/%{cfg.buildcfg}"
     objdir "bin-int/%{cfg.buildcfg}/Sandbox"
 
-    files { "Sandbox/src/**.h", "Sandbox/src/**.c", "LITEC/src/Events/EventDispatcher.c","libs/glad/src/glad.c", "mylibs/Logger/src/Logger.c" }
+    files {
+        "Sandbox/src/**.h",
+        "Sandbox/src/**.c"
+    }
 
-    includedirs { "libs/glad/include", "libs/GLFW/include", "LITEC/src", "mylibs/Logger/include" }
-    libdirs { "libs/GLFW/lib-vc2019", "bin/%{cfg.buildcfg}" }
-    
+    includedirs {
+        "Sandbox/src",
+        "LITEC/src",
+        "libs/glad/include",
+        "libs/GLFW/include",
+        "mylibs/Logger/include"
+    }
 
+    libdirs {
+        "libs/GLFW/lib-vc2019",
+        "bin/%{cfg.buildcfg}"
+    }
 
-    links { "LITEC" }
+    links {
+        "LITEC"
+    }
 
     filter "configurations:Debug"
         defines { "DEBUG" }
         symbols "On"
-       
 
     filter "configurations:Release"
         defines { "NDEBUG" }
         optimize "On"
-       

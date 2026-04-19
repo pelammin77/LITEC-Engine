@@ -1,11 +1,9 @@
-
-
 // window.c
 
 #include"base_window.h"
 #include <glad/glad.h>
 #include<glfw3.h>
-#include"WindowEvent.h"
+#include "../Events/WindowEvent.h"
 
 
 
