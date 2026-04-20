@@ -5,7 +5,9 @@ LITEC-Engine is a lightweight game engine written in C for learning and experime
 ## 🛠️ Building the Project
 
 ### 🔷 Linux
+🚧 Linux build system is coming soon.
 
+<!--
 1. Install Premake (if not already installed):
 
    ```bash
@@ -22,7 +24,7 @@ Build the project:
 cd build
 make config=debug   # or: make config=release
 
-
+-->
 ### 🟦 Windows
 
     Use the provided premake5.exe in the tools/ folder.
