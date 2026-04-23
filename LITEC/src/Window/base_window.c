@@ -1,4 +1,4 @@
-// window.c
+// base_window.c
 
 #include"base_window.h"
 #include <glad/glad.h>
@@ -22,6 +22,22 @@ void framebuffer_size_callback(GLFWwindow* glfwWindow, int width, int height) {
 
 
 }
+
+
+void window_close_callback(GLFWwindow* glfwWindow) {
+    WindowEvent event;
+
+    WindowEvent_Init(&event, EVENT_WINDOW_CLOSE, CATEGORY_WINDOW);
+
+    //send event 
+    EventDispatcher_DispatchEvent(&event.base_event);
+   
+
+
+}
+
+
+
 
 Window* Window_Create(int width, int height, const char* title) {
     // Alusta GLFW-kirjasto.
@@ -53,6 +69,7 @@ Window* Window_Create(int width, int height, const char* title) {
     glClear(GL_COLOR_BUFFER_BIT);
    
     glfwSetFramebufferSizeCallback(window->glfwWindow, framebuffer_size_callback);
+    glfwSetWindowCloseCallback(window->glfwWindow, window_close_callback);
 
     return window;
 }

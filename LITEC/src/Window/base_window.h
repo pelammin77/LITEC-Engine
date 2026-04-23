@@ -20,6 +20,7 @@ void Window_Destroy(Window* window);
 void Window_Update(Window* window);
 void Window_Render(Window* window);
 void framebuffer_size_callback(GLFWwindow* glfwWindow, int width, int height);
+void window_close_callback(GLFWwindow* glfwWindow);
 
 
 #endif

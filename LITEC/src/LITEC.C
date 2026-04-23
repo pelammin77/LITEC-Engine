@@ -18,15 +18,6 @@ void handleWindowOpenEvent(Event* event) {
         print_info("LITEC Engine created new window");
        
     }
-    /*
-    if (event->type == EVENT_WINDOW_RESIZE) {
-        // Tulosta uudet ikkunan mitat
-        print_info("Window resized event");
-        // printf("framebuffer_size_callback called with width: %d, height: %d\n", event.width, event.height);
-        
-        // Muuta sovelluksen asetuksia tarvittaessa...
-    }
-    */
     }
 
 
@@ -43,6 +34,18 @@ void handleWindowResizeEvent(Event* event) {
     }
 }
 
+void handleWindowCloseEvent(Event* event){
+
+      if (event->type == EVENT_WINDOW_CLOSE) {
+        print_info("Closing window");
+        running = 0;
+
+
+
+      }
+
+
+}
 
 
 
@@ -55,6 +58,7 @@ void LITEC_Init(const char* title, int width, int height) {
     print_info("LITEC engine is starting. Welcome!\n");
     EventDispatcher_RegisterHandler(CATEGORY_WINDOW, handleWindowResizeEvent);
     EventDispatcher_RegisterHandler(CATEGORY_WINDOW, handleWindowOpenEvent);
+    EventDispatcher_RegisterHandler(CATEGORY_WINDOW, handleWindowCloseEvent);
 
     //EventDispatcher_RegisterHandler(EVENT_WINDOW_RESIZE, handleWindowResizeEvent);
     //EventDispatcher_RegisterHandler(EVENT_WINDOW_OPEN, handleWindowOpenEvent);
@@ -83,7 +87,7 @@ void LITEC_HandleInput() {
 void LITEC_Update() {
     glfwPollEvents();
     Window_Update(window);
-    glfwSwapBuffers(window->glfwWindow);
+   // glfwSwapBuffers(window->glfwWindow);
     LITEC_HandleInput();
 
 
@@ -105,7 +109,7 @@ void LITEC_Shutdown() {
     
     // Lähetä tapahtuma järjestelmässä eteenpäin
     EventDispatcher_DispatchEvent(&engineShutdownEvent.base_event);
-    init_logger();
+   // init_logger();
 
     print_info("LITEC engine is shutting down. Goodbye!\n");
     running = 0;
