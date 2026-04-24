@@ -8,6 +8,8 @@
 #include "Events/EngineEvent.h"
 #include "Events/WindowEvent.h"
 #include "Events/EventDispatcher.h"
+#include "Events/KeyEvent.h"
+#include "Events/MouseEvent.h"
 
 static int running = 1;
 static LITEC_Window* window = NULL;
@@ -47,9 +49,83 @@ void handleWindowCloseEvent(Event* event){
 
 }
 
+void handleKeyPressedEvent(const Event* event)
+{
+    if (event->type == EVENT_KEY_PRESSED) {
+        KeyPressedEventData* data = (KeyPressedEventData*)event->data;
 
+        print_info("Key pressed event");
 
+        if (data) {
+            printf("Key code: %d, repeat count: %d\n", data->keyCode, data->repeatCount);
+        }
+    }
+}
 
+void handleKeyReleasedEvent(const Event* event)
+{
+    if (event->type == EVENT_KEY_RELEASED) {
+        KeyReleasedEventData* data = (KeyReleasedEventData*)event->data;
+
+        print_info("Key released event");
+
+        if (data) {
+            printf("Key code: %d\n", data->keyCode);
+        }
+    }
+}
+
+void handleMouseMovedEvent(const Event* event)
+{
+    if (event->type == EVENT_MOUSE_MOVED) {
+        const MouseMovedEvent* mouseEvent = (const MouseMovedEvent*)event;
+
+        print_info("Mouse moved event");
+
+        printf("Mouse position: x=%f, y=%f\n",
+            mouseEvent->x,
+            mouseEvent->y);
+    }
+}
+void handleMouseButtonPressedEvent(const Event* event)
+{
+    if (event->type == EVENT_MOUSE_BUTTON_PRESSED) {
+        const MouseButtonEvent* mouseEvent = (const MouseButtonEvent*)event;
+
+        print_info("Mouse button pressed event");
+
+        printf("Mouse button: %d, x=%f, y=%f\n",
+            mouseEvent->button,
+            mouseEvent->x,
+            mouseEvent->y);
+    }
+}
+
+void handleMouseButtonReleasedEvent(const Event* event)
+{
+    if (event->type == EVENT_MOUSE_BUTTON_RELEASED) {
+        const MouseButtonEvent* mouseEvent = (const MouseButtonEvent*)event;
+
+        print_info("Mouse button released event");
+
+        printf("Mouse button: %d, x=%f, y=%f\n",
+            mouseEvent->button,
+            mouseEvent->x,
+            mouseEvent->y);
+    }
+}
+void handleMouseScrolledEvent(const Event* event)
+{
+    if (event->type == EVENT_MOUSE_SCROLLED) {
+        const MouseScrolledEvent* mouseEvent = (const MouseScrolledEvent*)event;
+
+        print_info("Mouse scrolled event");
+
+        printf("Mouse scroll: xOffset=%f, yOffset=%f\n",
+            mouseEvent->xOffset,
+            mouseEvent->yOffset);
+    }
+}
 void LITEC_Init(const char* title, int width, int height) {
 
     init_logger();
@@ -59,10 +135,12 @@ void LITEC_Init(const char* title, int width, int height) {
     EventDispatcher_RegisterHandler(CATEGORY_WINDOW, handleWindowResizeEvent);
     EventDispatcher_RegisterHandler(CATEGORY_WINDOW, handleWindowOpenEvent);
     EventDispatcher_RegisterHandler(CATEGORY_WINDOW, handleWindowCloseEvent);
-
-    //EventDispatcher_RegisterHandler(EVENT_WINDOW_RESIZE, handleWindowResizeEvent);
-    //EventDispatcher_RegisterHandler(EVENT_WINDOW_OPEN, handleWindowOpenEvent);
-   
+    EventDispatcher_RegisterHandler(CATEGORY_INPUT, handleKeyPressedEvent);
+    EventDispatcher_RegisterHandler(CATEGORY_INPUT, handleKeyReleasedEvent);
+    EventDispatcher_RegisterHandler(CATEGORY_INPUT, handleMouseMovedEvent);
+    EventDispatcher_RegisterHandler(CATEGORY_INPUT, handleMouseButtonPressedEvent);
+    EventDispatcher_RegisterHandler(CATEGORY_INPUT, handleMouseButtonReleasedEvent);
+    EventDispatcher_RegisterHandler(CATEGORY_INPUT, handleMouseScrolledEvent);
 
    
     //window = Window_Create(width, height,title);

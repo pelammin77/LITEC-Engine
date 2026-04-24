@@ -4,6 +4,9 @@
 #include <glad/glad.h>
 #include<glfw3.h>
 #include "../Events/WindowEvent.h"
+#include "../Events/EventDispatcher.h"
+#include "../Events/KeyEvent.h"
+#include"../Events/MouseEvent.h"
 
 
 
@@ -70,7 +73,10 @@ Window* Window_Create(int width, int height, const char* title) {
    
     glfwSetFramebufferSizeCallback(window->glfwWindow, framebuffer_size_callback);
     glfwSetWindowCloseCallback(window->glfwWindow, window_close_callback);
-
+    glfwSetKeyCallback(window->glfwWindow, key_callback);
+    glfwSetCursorPosCallback(window->glfwWindow, mouse_position_callback);
+    glfwSetMouseButtonCallback(window->glfwWindow, mouse_button_callback);
+    glfwSetScrollCallback(window->glfwWindow, mouse_scroll_callback);
     return window;
 }
 
@@ -112,4 +118,74 @@ void Window_Render(Window* window) {
 
 }
 
+void key_callback(GLFWwindow* glfwWindow, int key, int scancode, int action, int mods)
+{
+    Event event;
+
+    if (action == GLFW_PRESS) {
+        KeyPressedEventData data;
+        KeyEvent_CreatePressed(&event, &data, key, 0);
+
+        // send event       
+        EventDispatcher_DispatchEvent(&event);
+    }
+
+    if (action == GLFW_RELEASE) {
+        KeyReleasedEventData data;
+        KeyEvent_CreateReleased(&event, &data, key);
+
+        // send event	   
+        EventDispatcher_DispatchEvent(&event);
+    }
+
+    if (action == GLFW_REPEAT) {
+        KeyPressedEventData data;
+        KeyEvent_CreatePressed(&event, &data, key, 1);
+
+        // send event
+        EventDispatcher_DispatchEvent(&event);
+    }
+
+
+}
+void mouse_position_callback(GLFWwindow* glfwWindow, double xpos, double ypos)
+{
+    (void)glfwWindow;
+
+    MouseMovedEvent event;
+    MouseMovedEvent_Init(&event, xpos, ypos);
+
+    EventDispatcher_DispatchEvent(&event.base_event);
+}
+
+void mouse_button_callback(GLFWwindow* glfwWindow, int button, int action, int mods)
+{
+    (void)mods;
+
+    double x, y;
+    glfwGetCursorPos(glfwWindow, &x, &y);
+
+    if (action == GLFW_PRESS) {
+        MouseButtonEvent event;
+        MouseButtonPressedEvent_Init(&event, button, x, y);
+
+        EventDispatcher_DispatchEvent(&event.base_event);
+    }
+    else if (action == GLFW_RELEASE) {
+        MouseButtonEvent event;
+        MouseButtonReleasedEvent_Init(&event, button, x, y);
+
+        EventDispatcher_DispatchEvent(&event.base_event);
+    }
+}
+
+void mouse_scroll_callback(GLFWwindow* glfwWindow, double xoffset, double yoffset)
+{
+    (void)glfwWindow;
+
+    MouseScrolledEvent event;
+    MouseScrolledEvent_Init(&event, xoffset, yoffset);
+
+    EventDispatcher_DispatchEvent(&event.base_event);
+}
 
