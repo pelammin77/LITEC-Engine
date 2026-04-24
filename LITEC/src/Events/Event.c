@@ -32,7 +32,7 @@ void Event_SetData(Event* event, void* data) {
     }
 }
 
-void* Event_GetData(Event* event) {
+void* Event_GetData(const Event* event) {
     if (event != NULL) {
         return event->data;
     }
@@ -44,7 +44,7 @@ EventCategory Event_GetCategory(const Event* event){
 
 }
 
-void Event_Set_category(Event* event, EventCategory category){
+void Event_SetCategory(Event* event, EventCategory category){
     event->category = category; 
 }
 
