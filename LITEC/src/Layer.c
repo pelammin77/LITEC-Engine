@@ -1,20 +1,19 @@
 #include "Layer.h"
+#include "Logger.h"
 #include <string.h>
-#include <stdio.h>
 
-/* Jos sinulla on oma loggeri, käytä sitä mieluummin */
 void Layer_DefaultOnAttach(Layer* layer)
 {
     if (layer == NULL) return;
 
-    printf("Layer attached: %s\n", layer->name);
+    print_info("Layer attached: %s", layer->name);
 }
 
 void Layer_DefaultOnDetach(Layer* layer)
 {
     if (layer == NULL) return;
 
-    printf("Layer detached: %s\n", layer->name);
+    print_info("Layer detached: %s", layer->name);
 }
 
 void Layer_DefaultOnUpdate(Layer* layer, float deltaTime)
@@ -35,12 +34,19 @@ void Layer_DefaultOnEvent(Layer* layer, Event* event)
 
 void Layer_Init(Layer* layer, const char* name, LayerType type)
 {
-    if (layer == NULL) return;
+    if (layer == NULL) {
+        print_warning("Layer_Init called with NULL layer");
+        return;
+    }
 
     memset(layer->name, 0, sizeof(layer->name));
 
     if (name != NULL) {
         strncpy(layer->name, name, NAME_MAX_LENGTH - 1);
+        layer->name[NAME_MAX_LENGTH - 1] = '\0';
+    }
+    else {
+        strncpy(layer->name, "UnnamedLayer", NAME_MAX_LENGTH - 1);
         layer->name[NAME_MAX_LENGTH - 1] = '\0';
     }
 
@@ -51,4 +57,6 @@ void Layer_Init(Layer* layer, const char* name, LayerType type)
     layer->OnDetach = Layer_DefaultOnDetach;
     layer->OnUpdate = Layer_DefaultOnUpdate;
     layer->OnEvent = Layer_DefaultOnEvent;
+
+    print_info("Layer initialized: %s", layer->name);
 }
