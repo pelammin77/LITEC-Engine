@@ -11,8 +11,14 @@ project "LITEC"
     files {
         "LITEC/src/**.h",
         "LITEC/src/**.c",
-        "libs/glad/src/glad.c",
-        "mylibs/Logger/src/Logger.c"
+
+        "libs/glad/include/**.h",
+        "libs/glad/src/**.c",
+
+        "libs/GLFW/include/**.h",
+
+        "mylibs/Logger/include/**.h",
+        "mylibs/Logger/src/**.c"
     }
 
     includedirs {
@@ -31,6 +37,9 @@ project "LITEC"
         "OpenGL32"
     }
 
+    filter "system:windows"
+        systemversion "latest"
+
     filter "configurations:Debug"
         defines { "DEBUG", "LITEC_EXPORTS" }
         symbols "On"
@@ -38,6 +47,8 @@ project "LITEC"
     filter "configurations:Release"
         defines { "NDEBUG", "LITEC_EXPORTS" }
         optimize "On"
+
+    filter {}
 
 project "Sandbox"
     kind "ConsoleApp"
@@ -47,7 +58,10 @@ project "Sandbox"
 
     files {
         "Sandbox/src/**.h",
-        "Sandbox/src/**.c"
+        "Sandbox/src/**.c",
+
+        "libs/GLFW/include/**.h",
+        "mylibs/Logger/include/**.h"
     }
 
     includedirs {
@@ -67,6 +81,9 @@ project "Sandbox"
         "LITEC"
     }
 
+    filter "system:windows"
+        systemversion "latest"
+
     filter "configurations:Debug"
         defines { "DEBUG" }
         symbols "On"
@@ -74,3 +91,5 @@ project "Sandbox"
     filter "configurations:Release"
         defines { "NDEBUG" }
         optimize "On"
+
+    filter {}
