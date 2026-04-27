@@ -16,6 +16,8 @@ project "LITEC"
         "libs/glad/src/**.c",
 
         "libs/GLFW/include/**.h",
+        "libs/cglm/include/**.h",
+
 
         "mylibs/Logger/include/**.h",
         "mylibs/Logger/src/**.c",
