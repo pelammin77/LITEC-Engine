@@ -35,6 +35,7 @@ project "LITEC"
         "mylibs/Logger/include",
         "mylibs/LitecMath/include",
         "mylibs/",
+        "libs/Nuklear",
         "libs/cglm/include"
     }
 

@@ -2,6 +2,12 @@
 
 LITEC-Engine is a lightweight game engine written in C for learning and experimentation purposes. The project uses [Premake](https://premake.github.io/) to generate build files for different platforms.
 
+# Clone with submodules
+git clone --recursive <repo-url>
+
+# If already cloned
+git submodule update --init --recursive
+
 ## 🛠️ Building the Project
 
 ### 🔷 Linux
