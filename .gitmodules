@@ -1,3 +1,6 @@
 [submodule "libs/cglm"]
 	path = libs/cglm
 	url = https://github.com/recp/cglm.git
+[submodule "libs/Nuklear"]
+	path = libs/Nuklear
+	url = https://github.com/Immediate-Mode-UI/Nuklear.git
