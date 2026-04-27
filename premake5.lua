@@ -18,14 +18,22 @@ project "LITEC"
         "libs/GLFW/include/**.h",
 
         "mylibs/Logger/include/**.h",
-        "mylibs/Logger/src/**.c"
+        "mylibs/Logger/src/**.c",
+
+        "mylibs/LitecMath/include/**.h",
+        "mylibs/LitecMath/src/**.c"
+
+
     }
 
     includedirs {
         "LITEC/src",
         "libs/glad/include",
         "libs/GLFW/include",
-        "mylibs/Logger/include"
+        "mylibs/Logger/include",
+        "mylibs/LitecMath/include",
+        "mylibs/",
+        "libs/cglm/include"
     }
 
     libdirs {

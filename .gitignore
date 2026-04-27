@@ -1,8 +1,53 @@
+# Visual Studio / VS Code
 .vs/
 .vscode/
+
+# Build output
 bin/
 bin-int/
-*.sln
-*.filters
-*.vcxproj
+build/
+out/
 
+# Visual Studio generated files
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.filters
+*.user
+*.suo
+*.opensdf
+*.sdf
+*.VC.db
+*.VC.VC.opendb
+
+# Object and binary files
+*.obj
+*.o
+*.lib
+*.a
+*.dll
+*.so
+*.dylib
+*.exe
+*.pdb
+*.ilk
+*.exp
+
+# Logs
+*.log
+session.log
+
+# Premake generated files
+Makefile
+*.make
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
