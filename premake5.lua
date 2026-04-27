@@ -18,6 +18,8 @@ project "LITEC"
         "libs/GLFW/include/**.h",
         "libs/cglm/include/**.h",
 
+         "libs/Nuklear/**.h",
+
 
         "mylibs/Logger/include/**.h",
         "mylibs/Logger/src/**.c",

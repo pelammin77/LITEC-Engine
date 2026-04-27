@@ -12,6 +12,7 @@
 #include "Events/MouseEvent.h"
 #include "cglm/cglm.h"
 #include "LitecMath.h"
+#include"nuklear.h"
 
 static int running = 1;
 static LITEC_Window* window = NULL;
