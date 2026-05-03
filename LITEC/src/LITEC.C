@@ -25,6 +25,38 @@ static LITEC_Window* window = NULL;
 static LayerStack layerStack;
 static Layer* guiLayer = NULL;
 
+static void LITEC_DispatchEventToLayers(Event* event)
+{
+    if (event == NULL)
+    {
+        return;
+    }
+
+    unsigned int count = LayerStack_GetCount(&layerStack);
+
+    if (count == 0)
+    {
+        return;
+    }
+
+    /*
+        Eventit välitetään lopusta alkuun.
+
+        Tämä tarkoittaa:
+        GuiLayer / overlay saa eventin ensin.
+        GameLayer saa eventin myöhemmin.
+    */
+    for (int i = (int)count - 1; i >= 0; i--)
+    {
+        Layer* layer = LayerStack_GetLayer(&layerStack, (unsigned int)i);
+
+        if (layer != NULL && layer->OnEvent != NULL)
+        {
+            layer->OnEvent(layer, event);
+        }
+    }
+}
+
 
 void handleWindowOpenEvent(Event* event)
 {
@@ -47,6 +79,7 @@ void handleWindowResizeEvent(Event* event)
             windowEvent->width, windowEvent->height);
 
         print_info(buffer);
+        LITEC_DispatchEventToLayers(event);
     }
 }
 
@@ -57,11 +90,12 @@ void handleWindowCloseEvent(Event* event)
     {
         print_info("Closing window");
         running = 0;
+        LITEC_DispatchEventToLayers(event);
     }
 }
 
 
-void handleKeyPressedEvent(const Event* event)
+void handleKeyPressedEvent(Event* event)
 {
     if (event->type == EVENT_KEY_PRESSED)
     {
@@ -75,11 +109,12 @@ void handleKeyPressedEvent(const Event* event)
                 data->keyCode,
                 data->repeatCount);
         }
+          LITEC_DispatchEventToLayers(event);
     }
 }
 
 
-void handleKeyReleasedEvent(const Event* event)
+void handleKeyReleasedEvent(Event* event)
 {
     if (event->type == EVENT_KEY_RELEASED)
     {
@@ -91,11 +126,12 @@ void handleKeyReleasedEvent(const Event* event)
         {
             printf("Key code: %d\n", data->keyCode);
         }
+          LITEC_DispatchEventToLayers(event);
     }
 }
 
 
-void handleMouseMovedEvent(const Event* event)
+void handleMouseMovedEvent(Event* event)
 {
     if (event->type == EVENT_MOUSE_MOVED)
     {
@@ -106,11 +142,13 @@ void handleMouseMovedEvent(const Event* event)
         printf("Mouse position: x=%f, y=%f\n",
             mouseEvent->x,
             mouseEvent->y);
+            LITEC_DispatchEventToLayers(event);
     }
+      
 }
 
 
-void handleMouseButtonPressedEvent(const Event* event)
+void handleMouseButtonPressedEvent(Event* event)
 {
     if (event->type == EVENT_MOUSE_BUTTON_PRESSED)
     {
@@ -122,11 +160,12 @@ void handleMouseButtonPressedEvent(const Event* event)
             mouseEvent->button,
             mouseEvent->x,
             mouseEvent->y);
+            LITEC_DispatchEventToLayers(event);
     }
 }
 
 
-void handleMouseButtonReleasedEvent(const Event* event)
+void handleMouseButtonReleasedEvent(Event* event)
 {
     if (event->type == EVENT_MOUSE_BUTTON_RELEASED)
     {
@@ -138,11 +177,12 @@ void handleMouseButtonReleasedEvent(const Event* event)
             mouseEvent->button,
             mouseEvent->x,
             mouseEvent->y);
+            LITEC_DispatchEventToLayers(event);
     }
 }
 
 
-void handleMouseScrolledEvent(const Event* event)
+void handleMouseScrolledEvent(Event* event)
 {
     if (event->type == EVENT_MOUSE_SCROLLED)
     {
@@ -153,6 +193,7 @@ void handleMouseScrolledEvent(const Event* event)
         printf("Mouse scroll: xOffset=%f, yOffset=%f\n",
             mouseEvent->xOffset,
             mouseEvent->yOffset);
+            LITEC_DispatchEventToLayers(event);
     }
 }
 

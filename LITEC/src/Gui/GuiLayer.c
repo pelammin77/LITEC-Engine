@@ -36,10 +36,6 @@ static void GuiLayer_OnUpdate(Layer* layer, float deltaTime)
 
 static void GuiLayer_OnEvent(Layer* layer, Event* event)
 {
-    /*
-        Tänne tulee myöhemmin GUI:n input-käsittely.
-    */
-
     (void)layer;
 
     if (event == NULL)
@@ -47,9 +43,19 @@ static void GuiLayer_OnEvent(Layer* layer, Event* event)
         return;
     }
 
-    print_info("GuiLayer received event");
+    if (event->type == EVENT_MOUSE_MOVED)
+    {
+        print_info("GuiLayer received mouse moved event");
+    }
+    else if (event->type == EVENT_KEY_PRESSED)
+    {
+        print_info("GuiLayer received key pressed event");
+    }
+    else
+    {
+        print_info("GuiLayer received event");
+    }
 }
-
 
 Layer* GuiLayer_Create(void)
 {
