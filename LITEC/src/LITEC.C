@@ -53,6 +53,10 @@ static void LITEC_DispatchEventToLayers(Event* event)
         if (layer != NULL && layer->OnEvent != NULL)
         {
             layer->OnEvent(layer, event);
+            if (event->handled)
+            {
+                break;
+            }
         }
     }
 }

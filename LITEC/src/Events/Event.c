@@ -11,6 +11,7 @@ void Event_Init(Event* event, EventType type, EventCategory category) {
         event->type = type;
         event->category =  category;
         event->data = NULL; // Alustetaan data NULL:ksi. Voit muuttaa tätä, jos tarpeen.
+        event->handled = 0;
     }
 }
 

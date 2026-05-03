@@ -46,6 +46,7 @@ static void GuiLayer_OnEvent(Layer* layer, Event* event)
     if (event->type == EVENT_MOUSE_MOVED)
     {
         print_info("GuiLayer received mouse moved event");
+		event->handled = 1; // Merkitään event käsitellyksi, jotta se ei kulje pidemmälle
     }
     else if (event->type == EVENT_KEY_PRESSED)
     {

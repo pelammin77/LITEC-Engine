@@ -42,7 +42,7 @@ typedef struct {
     EventType type;
     EventCategory category;
     void *data;
-
+    int handled;
     // mahdollisesti muita tietoja tapahtumasta
 } Event;
 
