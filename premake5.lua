@@ -18,27 +18,29 @@ project "LITEC"
         "libs/GLFW/include/**.h",
         "libs/cglm/include/**.h",
 
-         "libs/Nuklear/**.h",
-
+        "libs/Nuklear/nuklear.h",
+        "libs/Nuklear/demo/glfw_opengl3/nuklear_glfw_gl3.h",
 
         "mylibs/Logger/include/**.h",
         "mylibs/Logger/src/**.c",
 
         "mylibs/LitecMath/include/**.h",
         "mylibs/LitecMath/src/**.c"
-
-
     }
 
     includedirs {
         "LITEC/src",
+
         "libs/glad/include",
         "libs/GLFW/include",
+        "libs/cglm/include",
+
+        "libs/Nuklear",
+        "libs/Nuklear/demo/glfw_opengl3",
+
         "mylibs/Logger/include",
         "mylibs/LitecMath/include",
-        "mylibs/",
-        "libs/Nuklear",
-        "libs/cglm/include"
+        "mylibs"
     }
 
     libdirs {
@@ -54,11 +56,11 @@ project "LITEC"
         systemversion "latest"
 
     filter "configurations:Debug"
-        defines { "DEBUG", "LITEC_EXPORTS" }
+        defines { "DEBUG", "LITEC_EXPORTS", "GLFW_INCLUDE_NONE" }
         symbols "On"
 
     filter "configurations:Release"
-        defines { "NDEBUG", "LITEC_EXPORTS" }
+        defines { "NDEBUG", "LITEC_EXPORTS", "GLFW_INCLUDE_NONE" }
         optimize "On"
 
     filter {}
@@ -80,9 +82,17 @@ project "Sandbox"
     includedirs {
         "Sandbox/src",
         "LITEC/src",
+
         "libs/glad/include",
         "libs/GLFW/include",
-        "mylibs/Logger/include"
+        "libs/cglm/include",
+
+        "libs/Nuklear",
+        "libs/Nuklear/demo/glfw_opengl3",
+
+        "mylibs/Logger/include",
+        "mylibs/LitecMath/include",
+        "mylibs"
     }
 
     libdirs {
@@ -98,11 +108,11 @@ project "Sandbox"
         systemversion "latest"
 
     filter "configurations:Debug"
-        defines { "DEBUG" }
+        defines { "DEBUG", "GLFW_INCLUDE_NONE" }
         symbols "On"
 
     filter "configurations:Release"
-        defines { "NDEBUG" }
+        defines { "NDEBUG", "GLFW_INCLUDE_NONE" }
         optimize "On"
 
     filter {}

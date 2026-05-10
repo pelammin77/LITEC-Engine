@@ -6,7 +6,6 @@
 #include <stdlib.h>
 
 #include <glad/glad.h>
-#include <glfw3.h>
 
 #include "../Events/WindowEvent.h"
 #include "../Events/EventDispatcher.h"
@@ -69,44 +68,22 @@ Window* Window_Create(int width, int height, const char* title)
         return NULL;
     }
 
-    glfwMakeContextCurrent(window->glfwWindow);
+    /*
+        OpenGL-alustus on nyt siirretty Platform/OpenGL/OpenGLContext.c-tiedostoon.
 
-    // Ladataan GLAD vasta sen jälkeen, kun OpenGL-konteksti on aktiivinen.
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        printf("Failed to initialize GLAD\n");
+        Tämä tekee:
+        - glfwMakeContextCurrent(...)
+        - gladLoadGLLoader(...)
+        - OpenGL vendor / renderer / version -tulostukset
+    */
+    if (!OpenGLContext_Init(&window->graphicsContext, window->glfwWindow)) {
+        printf("Failed to initialize OpenGL context!\n");
 
         glfwDestroyWindow(window->glfwWindow);
         free(window);
         glfwTerminate();
 
         return NULL;
-    }
-
-    printf("GLAD initialized successfully\n");
-
-    const GLubyte* version = glGetString(GL_VERSION);
-    const GLubyte* vendor = glGetString(GL_VENDOR);
-    const GLubyte* renderer = glGetString(GL_RENDERER);
-
-    if (version) {
-        printf("OpenGL version: %s\n", version);
-    }
-    else {
-        printf("OpenGL version: NULL\n");
-    }
-
-    if (vendor) {
-        printf("OpenGL vendor: %s\n", vendor);
-    }
-    else {
-        printf("OpenGL vendor: NULL\n");
-    }
-
-    if (renderer) {
-        printf("OpenGL renderer: %s\n", renderer);
-    }
-    else {
-        printf("OpenGL renderer: NULL\n");
     }
 
     // Alustava taustaväri.
@@ -128,6 +105,8 @@ Window* Window_Create(int width, int height, const char* title)
 void Window_Destroy(Window* window)
 {
     if (window) {
+        OpenGLContext_Shutdown(&window->graphicsContext);
+
         if (window->glfwWindow) {
             glfwDestroyWindow(window->glfwWindow);
             window->glfwWindow = NULL;
