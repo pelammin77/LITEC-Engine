@@ -25,6 +25,7 @@ static LITEC_Window* window = NULL;
 static LayerStack layerStack;
 static Layer* guiLayer = NULL;
 
+
 static void LITEC_DispatchEventToLayers(Event* event)
 {
     if (event == NULL)
@@ -53,6 +54,7 @@ static void LITEC_DispatchEventToLayers(Event* event)
         if (layer != NULL && layer->OnEvent != NULL)
         {
             layer->OnEvent(layer, event);
+
             if (event->handled)
             {
                 break;
@@ -78,11 +80,16 @@ void handleWindowResizeEvent(Event* event)
         WindowEvent* windowEvent = (WindowEvent*)event;
 
         char buffer[128];
-        snprintf(buffer, sizeof(buffer),
+        snprintf(
+            buffer,
+            sizeof(buffer),
             "Window resized: width=%d, height=%d",
-            windowEvent->width, windowEvent->height);
+            windowEvent->width,
+            windowEvent->height
+        );
 
         print_info(buffer);
+
         LITEC_DispatchEventToLayers(event);
     }
 }
@@ -94,6 +101,7 @@ void handleWindowCloseEvent(Event* event)
     {
         print_info("Closing window");
         running = 0;
+
         LITEC_DispatchEventToLayers(event);
     }
 }
@@ -109,11 +117,14 @@ void handleKeyPressedEvent(Event* event)
 
         if (data)
         {
-            printf("Key code: %d, repeat count: %d\n",
+            printf(
+                "Key code: %d, repeat count: %d\n",
                 data->keyCode,
-                data->repeatCount);
+                data->repeatCount
+            );
         }
-          LITEC_DispatchEventToLayers(event);
+
+        LITEC_DispatchEventToLayers(event);
     }
 }
 
@@ -130,7 +141,8 @@ void handleKeyReleasedEvent(Event* event)
         {
             printf("Key code: %d\n", data->keyCode);
         }
-          LITEC_DispatchEventToLayers(event);
+
+        LITEC_DispatchEventToLayers(event);
     }
 }
 
@@ -143,12 +155,14 @@ void handleMouseMovedEvent(Event* event)
 
         print_info("Mouse moved event");
 
-        printf("Mouse position: x=%f, y=%f\n",
+        printf(
+            "Mouse position: x=%f, y=%f\n",
             mouseEvent->x,
-            mouseEvent->y);
-            LITEC_DispatchEventToLayers(event);
+            mouseEvent->y
+        );
+
+        LITEC_DispatchEventToLayers(event);
     }
-      
 }
 
 
@@ -160,11 +174,14 @@ void handleMouseButtonPressedEvent(Event* event)
 
         print_info("Mouse button pressed event");
 
-        printf("Mouse button: %d, x=%f, y=%f\n",
+        printf(
+            "Mouse button: %d, x=%f, y=%f\n",
             mouseEvent->button,
             mouseEvent->x,
-            mouseEvent->y);
-            LITEC_DispatchEventToLayers(event);
+            mouseEvent->y
+        );
+
+        LITEC_DispatchEventToLayers(event);
     }
 }
 
@@ -177,11 +194,14 @@ void handleMouseButtonReleasedEvent(Event* event)
 
         print_info("Mouse button released event");
 
-        printf("Mouse button: %d, x=%f, y=%f\n",
+        printf(
+            "Mouse button: %d, x=%f, y=%f\n",
             mouseEvent->button,
             mouseEvent->x,
-            mouseEvent->y);
-            LITEC_DispatchEventToLayers(event);
+            mouseEvent->y
+        );
+
+        LITEC_DispatchEventToLayers(event);
     }
 }
 
@@ -194,10 +214,13 @@ void handleMouseScrolledEvent(Event* event)
 
         print_info("Mouse scrolled event");
 
-        printf("Mouse scroll: xOffset=%f, yOffset=%f\n",
+        printf(
+            "Mouse scroll: xOffset=%f, yOffset=%f\n",
             mouseEvent->xOffset,
-            mouseEvent->yOffset);
-            LITEC_DispatchEventToLayers(event);
+            mouseEvent->yOffset
+        );
+
+        LITEC_DispatchEventToLayers(event);
     }
 }
 
@@ -230,6 +253,7 @@ void LITEC_Init(const char* title, int width, int height)
     }
 
     guiLayer = GuiLayer_Create(window->glfwWindow);
+
     if (guiLayer != NULL)
     {
         LayerStack_PushOverlay(&layerStack, guiLayer);
@@ -263,11 +287,42 @@ void LITEC_Update()
     LITEC_HandleInput();
 
     /*
+        Tähän tulee myöhemmin pelin varsinainen päivityslogiikka.
+
+        Huom:
+        GuiLayerin päivitys/renderöinti tehdään tällä hetkellä LITEC_Render()
+        -funktiossa, jotta Nuklear piirretään vasta glClear-kutsun jälkeen.
+    */
+}
+
+
+void LITEC_Render()
+{
+    if (window == NULL)
+    {
+        return;
+    }
+
+    /*
+        Ensin tyhjennetään ruutu.
+        Window_Render sisältää tällä hetkellä glViewport, glClearColor ja glClear.
+    */
+    Window_Render(window);
+
+    /*
         Tässä vaiheessa deltaTime on vielä 0.0f.
         Myöhemmin tähän voidaan tehdä oikea ajastus.
     */
     float deltaTime = 0.0f;
 
+    /*
+        Piirretään/päivitetään layerit vasta Window_Renderin jälkeen.
+
+        Tämä on tärkeää Nuklearille:
+            - Window_Render tekee glClear-kutsun
+            - GuiLayer piirtää Nuklear GUI:n
+            - glfwSwapBuffers näyttää lopputuloksen
+    */
     for (unsigned int i = 0; i < LayerStack_GetCount(&layerStack); i++)
     {
         Layer* layer = LayerStack_GetLayer(&layerStack, i);
@@ -278,13 +333,6 @@ void LITEC_Update()
         }
     }
 
-    // Tähän tulee myöhemmin pelin päivityskoodi.
-}
-
-
-void LITEC_Render()
-{
-    Window_Render(window);
     glfwSwapBuffers(window->glfwWindow);
 }
 

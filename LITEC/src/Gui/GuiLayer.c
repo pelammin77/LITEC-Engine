@@ -7,8 +7,8 @@
 
 #include "GuiLayer.h"
 #include "Logger.h"
-
 #include <stdlib.h>
+#include "nuklear.h"
 
 
 static void GuiLayer_OnAttach(Layer* layer)
@@ -50,7 +50,49 @@ static void GuiLayer_OnDetach(Layer* layer)
     print_info("GuiLayer detached");
 }
 
+static void GuiLayer_DrawDebugPanel(struct nk_context* ctx)
+{
+   // print_info("Drawing Litec Debug Panel");    
+    static int showGrid = 1;
+    static int showConsole = 1;
+    static float testValue = 0.5f;
 
+    if (ctx == NULL)
+    {
+        return;
+    }
+
+    if (nk_begin(
+        ctx,
+        "Litec Debug Panel",
+        nk_rect(50, 50, 260, 220),
+        NK_WINDOW_BORDER |
+        NK_WINDOW_MOVABLE |
+        NK_WINDOW_SCALABLE |
+        NK_WINDOW_MINIMIZABLE |
+        NK_WINDOW_TITLE))
+    {
+        nk_layout_row_dynamic(ctx, 25, 1);
+        nk_label(ctx, "Hello from Nuklear", NK_TEXT_LEFT);
+
+        nk_layout_row_dynamic(ctx, 25, 1);
+        nk_checkbox_label(ctx, "Show grid", &showGrid);
+
+        nk_layout_row_dynamic(ctx, 25, 1);
+        nk_checkbox_label(ctx, "Show console", &showConsole);
+
+        nk_layout_row_dynamic(ctx, 25, 1);
+        nk_property_float(ctx, "Value", 0.0f, &testValue, 1.0f, 0.01f, 0.005f);
+
+        nk_layout_row_dynamic(ctx, 30, 1);
+        if (nk_button_label(ctx, "Test Button"))
+        {
+            print_info("Litec Debug Panel button clicked");
+        }
+    }
+
+    nk_end(ctx);
+}
 static void GuiLayer_OnUpdate(Layer* layer, float deltaTime)
 {
     (void)deltaTime;
@@ -60,6 +102,15 @@ static void GuiLayer_OnUpdate(Layer* layer, float deltaTime)
         return;
     }
 
+    static int printed = 0;
+
+    if (!printed)
+    {
+        print_info("GuiLayer update running");
+        printed = 1;
+    }
+
+
     GuiLayer* guiLayer = (GuiLayer*)layer;
 
     if (!guiLayer->backend.initialized)
@@ -67,38 +118,14 @@ static void GuiLayer_OnUpdate(Layer* layer, float deltaTime)
         return;
     }
 
-    /*
-        Tässä alkaa myöhemmin Nuklearin frame.
-
-        Rakenne tulee olemaan:
-
-            NuklearBackend_BeginFrame(...)
-
-            // Täällä rakennetaan GUI:
-            // - Litec Debug Panel
-            // - napit
-            // - checkboxit
-            // - sliderit
-            // - myöhemmin editoripaneelit
-
-            NuklearBackend_EndFrame(...)
-
-        Tällä hetkellä backend-funktiot ovat vielä tyhjiä/skeleton-vaiheessa,
-        mutta kutsuketju on nyt oikeassa paikassa.
-    */
-
     NuklearBackend_BeginFrame(&guiLayer->backend);
 
-    /*
-        Seuraavassa vaiheessa tänne tulee esimerkiksi:
+    struct nk_context* ctx = NuklearBackend_GetContext(&guiLayer->backend);
 
-            struct nk_context* ctx = NuklearBackend_GetContext(&guiLayer->backend);
-
-            if (ctx != NULL)
-            {
-                GuiLayer_DrawDebugPanel(ctx);
-            }
-    */
+    if (ctx != NULL)
+    {
+        GuiLayer_DrawDebugPanel(ctx);
+    }
 
     NuklearBackend_EndFrame(&guiLayer->backend);
 }

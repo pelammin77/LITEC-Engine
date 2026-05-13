@@ -19,5 +19,6 @@ typedef struct {
 
 Layer* GuiLayer_Create(GLFWwindow* window);
 void GuiLayer_Destroy(Layer* layer);
+static void GuiLayer_DrawDebugPanel(struct nk_context* ctx);
 
 #endif
