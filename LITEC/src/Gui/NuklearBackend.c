@@ -2,68 +2,118 @@
 // Copyright (c) 2024-2025, Lightbend, Inc. and the LITEC contributors
 // For the full copyright and license information, please view the LICENSE file
 // that was distributed with this source code.
+//
 // NuklearBackend.c
 
 #include "NuklearBackend.h"
 
 #include <stdio.h>
+#include <string.h>
+
+#include <glad/glad.h>
+
+#ifndef GLFW_INCLUDE_NONE
+#define GLFW_INCLUDE_NONE
+#endif
+
+#include <glfw3.h>
+
+#include "Logger.h"
 
 /*
-    Nuklear implementation should be included in exactly ONE .c file.
+    Nuklear implementation must be included in exactly ONE .c file.
 
-    Later this file can contain something like:
-
-        #define NK_INCLUDE_FIXED_TYPES
-        #define NK_INCLUDE_STANDARD_IO
-        #define NK_INCLUDE_STANDARD_VARARGS
-        #define NK_INCLUDE_DEFAULT_ALLOCATOR
-        #define NK_INCLUDE_VERTEX_BUFFER_OUTPUT
-        #define NK_INCLUDE_FONT_BAKING
-        #define NK_INCLUDE_DEFAULT_FONT
-        #define NK_IMPLEMENTATION
-        #include "nuklear.h"
-
-        #define NK_GLFW_GL3_IMPLEMENTATION
-        #include "nuklear_glfw_gl3.h"
-
-    For now this is only a clean skeleton.
+    This file connects:
+        - Nuklear
+        - GLFW
+        - OpenGL 3
 */
+
+#define NK_INCLUDE_FIXED_TYPES
+#define NK_INCLUDE_STANDARD_IO
+#define NK_INCLUDE_STANDARD_VARARGS
+#define NK_INCLUDE_DEFAULT_ALLOCATOR
+#define NK_INCLUDE_VERTEX_BUFFER_OUTPUT
+#define NK_INCLUDE_FONT_BAKING
+#define NK_INCLUDE_DEFAULT_FONT
+#define NK_IMPLEMENTATION
+#include "nuklear.h"
+
+#define NK_GLFW_GL3_IMPLEMENTATION
+#include "nuklear_glfw_gl3.h"
+
+#define LITEC_NK_MAX_VERTEX_BUFFER  (512 * 1024)
+#define LITEC_NK_MAX_ELEMENT_BUFFER (128 * 1024)
+
+/*
+    First version uses one global Nuklear GLFW backend instance.
+
+    This is fine while Litec has one main window.
+    Later, if multiple windows are supported, this can be moved
+    into the NuklearBackend struct.
+*/
+static struct nk_glfw s_nuklearGlfw;
+
 
 int NuklearBackend_Init(NuklearBackend* backend, struct GLFWwindow* window)
 {
     if (backend == NULL)
     {
+        print_error("NuklearBackend_Init failed: backend is NULL");
         return 0;
     }
 
-    backend->window = window;
+    backend->window = NULL;
     backend->ctx = NULL;
     backend->initialized = 0;
 
     if (window == NULL)
     {
+        print_error("NuklearBackend_Init failed: window is NULL");
+        return 0;
+    }
+
+    backend->window = window;
+
+    memset(&s_nuklearGlfw, 0, sizeof(s_nuklearGlfw));
+
+    /*
+        NK_GLFW3_INSTALL_CALLBACKS lets Nuklear install its own GLFW callbacks.
+
+        This is good for the first test because input works quickly.
+        Later we may change this to NK_GLFW3_DEFAULT and route input
+        through Litec's own event system.
+    */
+    backend->ctx = nk_glfw3_init(
+        &s_nuklearGlfw,
+        window,
+        NK_GLFW3_INSTALL_CALLBACKS
+    );
+
+    if (backend->ctx == NULL)
+    {
+        print_error("NuklearBackend_Init failed: nk_glfw3_init returned NULL");
+        backend->window = NULL;
         return 0;
     }
 
     /*
-        TODO:
-        Initialize Nuklear GLFW/OpenGL backend here.
+        Initialize Nuklear font atlas.
 
-        Example later:
-
-            backend->ctx = nk_glfw3_init(window, NK_GLFW3_INSTALL_CALLBACKS);
-
-            struct nk_font_atlas* atlas;
-            nk_glfw3_font_stash_begin(&atlas);
-            nk_glfw3_font_stash_end();
-
-            backend->initialized = 1;
+        For now we use Nuklear's default font.
     */
+    struct nk_font_atlas* atlas = NULL;
+
+    nk_glfw3_font_stash_begin(&s_nuklearGlfw, &atlas);
+    nk_glfw3_font_stash_end(&s_nuklearGlfw);
 
     backend->initialized = 1;
 
+    print_info("NuklearBackend initialized");
+
     return 1;
 }
+
 
 void NuklearBackend_BeginFrame(NuklearBackend* backend)
 {
@@ -72,15 +122,9 @@ void NuklearBackend_BeginFrame(NuklearBackend* backend)
         return;
     }
 
-    /*
-        TODO:
-        Start Nuklear input/frame.
-
-        Example later:
-
-            nk_glfw3_new_frame();
-    */
+    nk_glfw3_new_frame(&s_nuklearGlfw);
 }
+
 
 void NuklearBackend_EndFrame(NuklearBackend* backend)
 {
@@ -89,19 +133,14 @@ void NuklearBackend_EndFrame(NuklearBackend* backend)
         return;
     }
 
-    /*
-        TODO:
-        Render Nuklear GUI.
-
-        Example later:
-
-            nk_glfw3_render(
-                NK_ANTI_ALIASING_ON,
-                MAX_VERTEX_BUFFER,
-                MAX_ELEMENT_BUFFER
-            );
-    */
+    nk_glfw3_render(
+        &s_nuklearGlfw,
+        NK_ANTI_ALIASING_ON,
+        LITEC_NK_MAX_VERTEX_BUFFER,
+        LITEC_NK_MAX_ELEMENT_BUFFER
+    );
 }
+
 
 void NuklearBackend_Shutdown(NuklearBackend* backend)
 {
@@ -112,20 +151,15 @@ void NuklearBackend_Shutdown(NuklearBackend* backend)
 
     if (backend->initialized)
     {
-        /*
-            TODO:
-            Shutdown Nuklear backend.
-
-            Example later:
-
-                nk_glfw3_shutdown();
-        */
+        nk_glfw3_shutdown(&s_nuklearGlfw);
+        print_info("NuklearBackend shutdown");
     }
 
     backend->window = NULL;
     backend->ctx = NULL;
     backend->initialized = 0;
 }
+
 
 struct nk_context* NuklearBackend_GetContext(NuklearBackend* backend)
 {
