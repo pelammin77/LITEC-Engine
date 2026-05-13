@@ -4,8 +4,20 @@
 #define GUILAYER_H
 
 #include "../Layer.h"
+#include <glfw3.h>
+#include "NuklearBackend.h"
 
-Layer* GuiLayer_Create(void);
+
+
+typedef struct {
+	Layer base;
+	NuklearBackend backend;
+	GLFWwindow* window;
+} GuiLayer;
+
+
+
+Layer* GuiLayer_Create(GLFWwindow* window);
 void GuiLayer_Destroy(Layer* layer);
 
 #endif

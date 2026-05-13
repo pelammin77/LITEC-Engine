@@ -229,8 +229,7 @@ void LITEC_Init(const char* title, int width, int height)
         return;
     }
 
-    guiLayer = GuiLayer_Create();
-
+    guiLayer = GuiLayer_Create(window->glfwWindow);
     if (guiLayer != NULL)
     {
         LayerStack_PushOverlay(&layerStack, guiLayer);
