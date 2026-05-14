@@ -1,4 +1,5 @@
 ﻿#include "Logger.h"
+#include <stdlib.h>
 
 FILE* logfile = NULL; // Globaali tiedosto-osoitin, joka osoittaa logitiedostoon
 
