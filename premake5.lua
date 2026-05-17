@@ -2,9 +2,16 @@ workspace "LITEC Engine"
     configurations { "Debug", "Release" }
     startproject "Sandbox"
 
+    filter "system:windows"
+        systemversion "latest"
+
+    filter {}
+
+
 project "LITEC"
     kind "SharedLib"
     language "C"
+
     targetdir "bin/%{cfg.buildcfg}"
     objdir "bin-int/%{cfg.buildcfg}/LITEC"
 
@@ -52,31 +59,32 @@ project "LITEC"
         "OpenGL32"
     }
 
-    filter "system:windows"
-        systemversion "latest"
+    defines {
+        "GLFW_INCLUDE_NONE",
+        "LITEC_EXPORTS"
+    }
 
     filter "configurations:Debug"
-        defines { "DEBUG", "LITEC_EXPORTS", "GLFW_INCLUDE_NONE" }
+        defines { "DEBUG" }
         symbols "On"
 
     filter "configurations:Release"
-        defines { "NDEBUG", "LITEC_EXPORTS", "GLFW_INCLUDE_NONE" }
+        defines { "NDEBUG" }
         optimize "On"
 
     filter {}
 
+
 project "Sandbox"
     kind "ConsoleApp"
     language "C"
+
     targetdir "bin/%{cfg.buildcfg}"
     objdir "bin-int/%{cfg.buildcfg}/Sandbox"
 
     files {
         "Sandbox/src/**.h",
-        "Sandbox/src/**.c",
-
-        "libs/GLFW/include/**.h",
-        "mylibs/Logger/include/**.h"
+        "Sandbox/src/**.c"
     }
 
     includedirs {
@@ -96,7 +104,6 @@ project "Sandbox"
     }
 
     libdirs {
-        "libs/GLFW/lib-vc2019",
         "bin/%{cfg.buildcfg}"
     }
 
@@ -104,15 +111,16 @@ project "Sandbox"
         "LITEC"
     }
 
-    filter "system:windows"
-        systemversion "latest"
+    defines {
+        "GLFW_INCLUDE_NONE"
+    }
 
     filter "configurations:Debug"
-        defines { "DEBUG", "GLFW_INCLUDE_NONE" }
+        defines { "DEBUG" }
         symbols "On"
 
     filter "configurations:Release"
-        defines { "NDEBUG", "GLFW_INCLUDE_NONE" }
+        defines { "NDEBUG" }
         optimize "On"
 
     filter {}

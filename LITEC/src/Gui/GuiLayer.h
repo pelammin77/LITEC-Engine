@@ -4,7 +4,7 @@
 #define GUILAYER_H
 
 #include "../Layer.h"
-#include <glfw3.h>
+#include <GLFW/glfw3.h>
 #include "NuklearBackend.h"
 
 
