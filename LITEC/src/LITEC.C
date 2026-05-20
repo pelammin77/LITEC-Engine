@@ -2,6 +2,8 @@
 
 #include <stdio.h>
 
+#include <GLFW/glfw3.h>
+
 #include "LITEC.h"
 #include "Logger.h"
 
@@ -13,6 +15,7 @@
 
 #include "LayerStack.h"
 #include "Gui/GuiLayer.h"
+#include "Input/Input.h"
 
 //#include "cglm/cglm.h"
 //#include "LitecMath.h"
@@ -230,6 +233,7 @@ void LITEC_Init(const char* title, int width, int height)
     init_logger();
     EventDispatcher_Init();
     LayerStack_Init(&layerStack);
+    Input_Init();
 
     print_info("LITEC engine is starting. Welcome!\n");
 
@@ -274,12 +278,52 @@ int LITEC_Running()
 
 void LITEC_HandleInput()
 {
-    // Tähän tulee myöhemmin syötteiden käsittelykoodi.
+    /*
+        Väliaikainen polling-testi.
+
+        Tässä käytetään vielä GLFW-koodeja suoraan.
+        Myöhemmin nämä vaihdetaan Litecin omiin LITEC_KEY_*
+        ja LITEC_MOUSE_BUTTON_* -koodeihin, kun GLFWInputMap tehdään.
+    */
+
+    if (Input_IsKeyDown(GLFW_KEY_LEFT_CONTROL))
+    {
+        print_info("Polling: left CTRL is down");
+    }
+
+    if (Input_IsKeyDown(GLFW_KEY_RIGHT_CONTROL))
+    {
+        print_info("Polling: right CTRL is down");
+    }
+
+    if (Input_IsKeyPressed(GLFW_KEY_S))
+    {
+        print_info("Polling: S was pressed this frame");
+    }
+
+    if (
+        Input_IsKeyDown(GLFW_KEY_LEFT_CONTROL) &&
+        Input_IsKeyPressed(GLFW_KEY_S)
+        )
+    {
+        print_info("Polling: CTRL + S detected");
+    }
+
+    if (Input_IsMouseButtonDown(GLFW_MOUSE_BUTTON_LEFT))
+    {
+        print_info("Polling: left mouse button is down");
+    }
 }
 
 
 void LITEC_Update()
 {
+    /*
+        Kopioidaan nykyinen input-tila previous-tilaksi ennen kuin
+        glfwPollEvents() käsittelee uudet callbackit.
+    */
+    Input_BeginFrame();
+
     glfwPollEvents();
 
     Window_Update(window);

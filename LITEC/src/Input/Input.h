@@ -1,15 +1,43 @@
 #ifndef LITEC_INPUT_H
 #define LITEC_INPUT_H
 
-/*
-	Litec Input
-	This header includes all input-related headers, such as keyboard and mouse codes.
-	It serves as a single point of inclusion for engine users who want to work with input.
-	Important:
-	- Do not include platform-specific input headers (e.g., GLFW, Win32) here.
-	- Platform-specific code should convert native input codes into the engine's internal codes
-	  defined in the respective headers (e.g., KeyboardCodes.h, MouseCodes.h).
-*/
+void Input_Init(void);
+void Input_BeginFrame(void);
 
+/*
+    Keyboard input
+*/
+int Input_IsKeyDown(int keyCode);
+int Input_IsKeyPressed(int keyCode);
+int Input_IsKeyReleased(int keyCode);
+
+void Input_SetKeyState(int keyCode, int isDown);
+
+/*
+    Mouse buttons
+*/
+int Input_IsMouseButtonDown(int button);
+int Input_IsMouseButtonPressed(int button);
+int Input_IsMouseButtonReleased(int button);
+
+void Input_SetMouseButtonState(int button, int isDown);
+
+/*
+    Mouse position
+*/
+void Input_SetMousePosition(double x, double y);
+
+double Input_GetMouseX(void);
+double Input_GetMouseY(void);
+double Input_GetMouseDeltaX(void);
+double Input_GetMouseDeltaY(void);
+
+/*
+    Mouse scroll
+*/
+void Input_AddMouseScroll(double xoffset, double yoffset);
+
+double Input_GetScrollX(void);
+double Input_GetScrollY(void);
 
 #endif /* LITEC_INPUT_H */

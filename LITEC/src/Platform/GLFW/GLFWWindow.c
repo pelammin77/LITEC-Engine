@@ -11,6 +11,7 @@
 #include "../../Events/EventDispatcher.h"
 #include "../../Events/KeyEvent.h"
 #include "../../Events/MouseEvent.h"
+#include "../../Input/Input.h"
 
 
 void GLFWWindow_FramebufferSizeCallback(GLFWwindow* glfwWindow, int width, int height)
@@ -174,7 +175,6 @@ void GLFWWindow_Render(Window* window)
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-
 void GLFWWindow_KeyCallback(
     GLFWwindow* glfwWindow,
     int key,
@@ -190,6 +190,8 @@ void GLFWWindow_KeyCallback(
     Event event;
 
     if (action == GLFW_PRESS) {
+        Input_SetKeyState(key, 1);
+
         KeyPressedEventData data;
         KeyEvent_CreatePressed(&event, &data, key, 0);
 
@@ -197,6 +199,8 @@ void GLFWWindow_KeyCallback(
     }
 
     if (action == GLFW_RELEASE) {
+        Input_SetKeyState(key, 0);
+
         KeyReleasedEventData data;
         KeyEvent_CreateReleased(&event, &data, key);
 
@@ -204,14 +208,16 @@ void GLFWWindow_KeyCallback(
     }
 
     if (action == GLFW_REPEAT) {
+        /*
+            Näppäin on jo pohjassa, joten tilaa ei välttämättä tarvitse
+            päivittää uudelleen.
+        */
         KeyPressedEventData data;
         KeyEvent_CreatePressed(&event, &data, key, 1);
 
         EventDispatcher_DispatchEvent(&event);
     }
 }
-
-
 void GLFWWindow_MousePositionCallback(
     GLFWwindow* glfwWindow,
     double xpos,
@@ -220,13 +226,13 @@ void GLFWWindow_MousePositionCallback(
 {
     (void)glfwWindow;
 
+    Input_SetMousePosition(xpos, ypos);
+
     MouseMovedEvent event;
     MouseMovedEvent_Init(&event, xpos, ypos);
 
     EventDispatcher_DispatchEvent(&event.base_event);
 }
-
-
 void GLFWWindow_MouseButtonCallback(
     GLFWwindow* glfwWindow,
     int button,
@@ -239,20 +245,25 @@ void GLFWWindow_MouseButtonCallback(
     double x, y;
     glfwGetCursorPos(glfwWindow, &x, &y);
 
+    Input_SetMousePosition(x, y);
+
     if (action == GLFW_PRESS) {
+        Input_SetMouseButtonState(button, 1);
+
         MouseButtonEvent event;
         MouseButtonPressedEvent_Init(&event, button, x, y);
 
         EventDispatcher_DispatchEvent(&event.base_event);
     }
     else if (action == GLFW_RELEASE) {
+        Input_SetMouseButtonState(button, 0);
+
         MouseButtonEvent event;
         MouseButtonReleasedEvent_Init(&event, button, x, y);
 
         EventDispatcher_DispatchEvent(&event.base_event);
     }
 }
-
 
 void GLFWWindow_MouseScrollCallback(
     GLFWwindow* glfwWindow,
@@ -261,6 +272,8 @@ void GLFWWindow_MouseScrollCallback(
 )
 {
     (void)glfwWindow;
+
+    Input_AddMouseScroll(xoffset, yoffset);
 
     MouseScrolledEvent event;
     MouseScrolledEvent_Init(&event, xoffset, yoffset);

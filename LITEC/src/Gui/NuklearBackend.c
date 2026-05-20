@@ -78,16 +78,18 @@ int NuklearBackend_Init(NuklearBackend* backend, struct GLFWwindow* window)
     memset(&s_nuklearGlfw, 0, sizeof(s_nuklearGlfw));
 
     /*
-        NK_GLFW3_INSTALL_CALLBACKS lets Nuklear install its own GLFW callbacks.
+        Litec owns GLFW callbacks.
 
-        This is good for the first test because input works quickly.
-        Later we may change this to NK_GLFW3_DEFAULT and route input
-        through Litec's own event system.
+        We use NK_GLFW3_DEFAULT so Nuklear does not overwrite Litec's
+        keyboard, mouse, scroll or window callbacks.
+
+        Input will later be routed to Nuklear through Litec's own
+        event/input system.
     */
     backend->ctx = nk_glfw3_init(
         &s_nuklearGlfw,
         window,
-        NK_GLFW3_INSTALL_CALLBACKS
+        NK_GLFW3_DEFAULT
     );
 
     if (backend->ctx == NULL)
