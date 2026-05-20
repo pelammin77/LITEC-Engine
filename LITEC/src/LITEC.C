@@ -2,8 +2,6 @@
 
 #include <stdio.h>
 
-#include <GLFW/glfw3.h>
-
 #include "LITEC.h"
 #include "Logger.h"
 
@@ -16,6 +14,8 @@
 #include "LayerStack.h"
 #include "Gui/GuiLayer.h"
 #include "Input/Input.h"
+#include "Input/KeyCodes.h"
+#include "Input/MouseCodes.h"
 
 //#include "cglm/cglm.h"
 //#include "LitecMath.h"
@@ -281,37 +281,70 @@ void LITEC_HandleInput()
     /*
         Väliaikainen polling-testi.
 
-        Tässä käytetään vielä GLFW-koodeja suoraan.
-        Myöhemmin nämä vaihdetaan Litecin omiin LITEC_KEY_*
-        ja LITEC_MOUSE_BUTTON_* -koodeihin, kun GLFWInputMap tehdään.
+        Tässä käytetään nyt Litecin omia input-koodeja.
+        GLFW-koodit muunnetaan Litec-koodeiksi Platform/GLFW/GLFWInputMap.c:ssä.
     */
 
-    if (Input_IsKeyDown(GLFW_KEY_LEFT_CONTROL))
+    if (Input_IsKeyDown(LITEC_KEY_LEFT_CONTROL))
     {
         print_info("Polling: left CTRL is down");
     }
 
-    if (Input_IsKeyDown(GLFW_KEY_RIGHT_CONTROL))
-    {
-        print_info("Polling: right CTRL is down");
-    }
-
-    if (Input_IsKeyPressed(GLFW_KEY_S))
+    if (Input_IsKeyPressed(LITEC_KEY_S))
     {
         print_info("Polling: S was pressed this frame");
     }
 
     if (
-        Input_IsKeyDown(GLFW_KEY_LEFT_CONTROL) &&
-        Input_IsKeyPressed(GLFW_KEY_S)
+        Input_IsKeyDown(LITEC_KEY_LEFT_CONTROL) &&
+        Input_IsKeyPressed(LITEC_KEY_S)
         )
     {
         print_info("Polling: CTRL + S detected");
     }
 
-    if (Input_IsMouseButtonDown(GLFW_MOUSE_BUTTON_LEFT))
+    if (Input_IsMouseButtonDown(LITEC_MOUSE_BUTTON_LEFT))
     {
         print_info("Polling: left mouse button is down");
+    }
+
+    if (Input_IsMouseButtonPressed(LITEC_MOUSE_BUTTON_LEFT))
+    {
+        print_info("Polling: left mouse button pressed this frame");
+    }
+
+    if (Input_IsMouseButtonReleased(LITEC_MOUSE_BUTTON_LEFT))
+    {
+        print_info("Polling: left mouse button released this frame");
+    }
+
+    if (Input_GetMouseDeltaX() != 0.0 || Input_GetMouseDeltaY() != 0.0)
+    {
+        char buffer[128];
+
+        snprintf(
+            buffer,
+            sizeof(buffer),
+            "Polling mouse delta: dx=%f, dy=%f",
+            Input_GetMouseDeltaX(),
+            Input_GetMouseDeltaY()
+        );
+
+        print_info(buffer);
+    }
+
+    if (Input_GetScrollY() != 0.0)
+    {
+        char buffer[128];
+
+        snprintf(
+            buffer,
+            sizeof(buffer),
+            "Polling mouse scroll: y=%f",
+            Input_GetScrollY()
+        );
+
+        print_info(buffer);
     }
 }
 

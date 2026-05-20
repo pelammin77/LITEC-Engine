@@ -12,6 +12,7 @@
 #include "../../Events/KeyEvent.h"
 #include "../../Events/MouseEvent.h"
 #include "../../Input/Input.h"
+#include "GLFWInputMap.h"
 
 
 void GLFWWindow_FramebufferSizeCallback(GLFWwindow* glfwWindow, int width, int height)
@@ -174,7 +175,6 @@ void GLFWWindow_Render(Window* window)
     glClearColor(0.0f, 0.0f, 170.0f / 255.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 }
-
 void GLFWWindow_KeyCallback(
     GLFWwindow* glfwWindow,
     int key,
@@ -187,37 +187,45 @@ void GLFWWindow_KeyCallback(
     (void)scancode;
     (void)mods;
 
+    LitecKeyCode litecKey = GLFWInputMap_ToLitecKey(key);
+
+    if (litecKey == LITEC_KEY_UNKNOWN) {
+        return;
+    }
+
     Event event;
 
     if (action == GLFW_PRESS) {
-        Input_SetKeyState(key, 1);
+        Input_SetKeyState(litecKey, 1);
 
         KeyPressedEventData data;
-        KeyEvent_CreatePressed(&event, &data, key, 0);
+        KeyEvent_CreatePressed(&event, &data, litecKey, 0);
 
         EventDispatcher_DispatchEvent(&event);
     }
 
     if (action == GLFW_RELEASE) {
-        Input_SetKeyState(key, 0);
+        Input_SetKeyState(litecKey, 0);
 
         KeyReleasedEventData data;
-        KeyEvent_CreateReleased(&event, &data, key);
+        KeyEvent_CreateReleased(&event, &data, litecKey);
 
         EventDispatcher_DispatchEvent(&event);
     }
 
     if (action == GLFW_REPEAT) {
         /*
-            Näppäin on jo pohjassa, joten tilaa ei välttämättä tarvitse
+            Näppäin on jo pohjassa, joten tilaa ei tarvitse
             päivittää uudelleen.
         */
         KeyPressedEventData data;
-        KeyEvent_CreatePressed(&event, &data, key, 1);
+        KeyEvent_CreatePressed(&event, &data, litecKey, 1);
 
         EventDispatcher_DispatchEvent(&event);
     }
 }
+
+
 void GLFWWindow_MousePositionCallback(
     GLFWwindow* glfwWindow,
     double xpos,
@@ -233,6 +241,7 @@ void GLFWWindow_MousePositionCallback(
 
     EventDispatcher_DispatchEvent(&event.base_event);
 }
+
 void GLFWWindow_MouseButtonCallback(
     GLFWwindow* glfwWindow,
     int button,
@@ -242,29 +251,34 @@ void GLFWWindow_MouseButtonCallback(
 {
     (void)mods;
 
+    LitecMouseButton litecButton = GLFWInputMap_ToLitecMouseButton(button);
+
+    if (litecButton == LITEC_MOUSE_BUTTON_UNKNOWN) {
+        return;
+    }
+
     double x, y;
     glfwGetCursorPos(glfwWindow, &x, &y);
 
     Input_SetMousePosition(x, y);
 
     if (action == GLFW_PRESS) {
-        Input_SetMouseButtonState(button, 1);
+        Input_SetMouseButtonState(litecButton, 1);
 
         MouseButtonEvent event;
-        MouseButtonPressedEvent_Init(&event, button, x, y);
+        MouseButtonPressedEvent_Init(&event, litecButton, x, y);
 
         EventDispatcher_DispatchEvent(&event.base_event);
     }
     else if (action == GLFW_RELEASE) {
-        Input_SetMouseButtonState(button, 0);
+        Input_SetMouseButtonState(litecButton, 0);
 
         MouseButtonEvent event;
-        MouseButtonReleasedEvent_Init(&event, button, x, y);
+        MouseButtonReleasedEvent_Init(&event, litecButton, x, y);
 
         EventDispatcher_DispatchEvent(&event.base_event);
     }
 }
-
 void GLFWWindow_MouseScrollCallback(
     GLFWwindow* glfwWindow,
     double xoffset,
