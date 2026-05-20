@@ -90,7 +90,7 @@ Window* GLFWWindow_Create(int width, int height, const char* title)
 
     // Alustava taustaväri.
     glViewport(0, 0, width, height);
-    glClearColor(0.0f, 0.0f, 170.0f / 255.0f, 1.0f);
+    glClearColor(0.10f, 0.10f, 0.11f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     glfwSetFramebufferSizeCallback(
@@ -172,7 +172,7 @@ void GLFWWindow_Render(Window* window)
     glViewport(0, 0, width, height);
 
     // Testiväri: tummahko sininen.
-    glClearColor(0.0f, 0.0f, 170.0f / 255.0f, 1.0f);
+    glClearColor(0.10f, 0.10f, 0.11f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 void GLFWWindow_KeyCallback(

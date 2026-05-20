@@ -15,7 +15,7 @@ void HandleEngineInitialized(Event* event) {
 int main() {
     
             
-            LITEC_Init("My Game Window", 800, 600);
+            LITEC_Init("Litec engine", 1200, 720);
             
     // Pelisilmukka
     while (LITEC_Running()) {
