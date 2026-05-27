@@ -19,4 +19,6 @@ void LitecRenderer_EndFrame(void);
 
 LitecRendererBackend LitecRenderer_GetBackend(void);
 
+int LitecRenderer_IsInitialized(void);
+
 #endif
