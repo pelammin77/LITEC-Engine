@@ -79,19 +79,43 @@ void LitecRenderer_BeginFrame(void)
     {
         return;
     }
-}
 
+    switch (s_backend)
+    {
+    case LITEC_RENDERER_BACKEND_OPENGL:
+    {
+        OpenGLRenderer_BeginFrame();
+        break;
+    }
+
+    case LITEC_RENDERER_BACKEND_NONE:
+    default:
+    {
+        break;
+    }
+    }
+}
 
 void LitecRenderer_Clear(float r, float g, float b, float a)
 {
-    (void)r;
-    (void)g;
-    (void)b;
-    (void)a;
-
     if (!s_initialized)
     {
         return;
+    }
+
+    switch (s_backend)
+    {
+    case LITEC_RENDERER_BACKEND_OPENGL:
+    {
+        OpenGLRenderer_Clear(r, g, b, a);
+        break;
+    }
+
+    case LITEC_RENDERER_BACKEND_NONE:
+    default:
+    {
+        break;
+    }
     }
 }
 
@@ -102,8 +126,22 @@ void LitecRenderer_EndFrame(void)
     {
         return;
     }
-}
 
+    switch (s_backend)
+    {
+    case LITEC_RENDERER_BACKEND_OPENGL:
+    {
+        OpenGLRenderer_EndFrame();
+        break;
+    }
+
+    case LITEC_RENDERER_BACKEND_NONE:
+    default:
+    {
+        break;
+    }
+    }
+}
 
 LitecRendererBackend LitecRenderer_GetBackend(void)
 {
