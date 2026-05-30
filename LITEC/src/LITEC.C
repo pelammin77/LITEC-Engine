@@ -16,7 +16,7 @@
 #include "Input/Input.h"
 #include "Input/KeyCodes.h"
 #include "Input/MouseCodes.h"
-
+#include"Renderer/LitecRenderer.h"
 //#include "cglm/cglm.h"
 //#include "LitecMath.h"
 //#include "nuklear.h"
@@ -255,6 +255,8 @@ void LITEC_Init(const char* title, int width, int height)
         print_fatal_error("Window creation failed!");
         return;
     }
+    LitecRenderer_Init(LITEC_RENDERER_BACKEND_OPENGL);
+
 
     guiLayer = GuiLayer_Create(window->glfwWindow);
 
@@ -429,6 +431,7 @@ void LITEC_Shutdown()
     }
 
     LayerStack_Clear(&layerStack);
+    LitecRenderer_Shutdown();
 
     if (window != NULL)
     {

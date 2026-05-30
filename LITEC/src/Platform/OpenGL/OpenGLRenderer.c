@@ -3,11 +3,13 @@
 #include "Platform/OpenGL/OpenGLRenderer.h"
 
 #include <glad/glad.h>
-#include <stdio.h>
+
+#include "Logger.h"
+
 
 void OpenGLRenderer_Init(void)
 {
-    printf("OpenGLRenderer_Init called\n");
+    print_info("OpenGLRenderer initialized");
 
     /*
         Tänne myöhemmin:
@@ -18,18 +20,25 @@ void OpenGLRenderer_Init(void)
     */
 }
 
+
 void OpenGLRenderer_BeginFrame(void)
 {
     /*
         Tänne myöhemmin voidaan lisätä OpenGL frame setup.
+        Esimerkiksi:
+        - viewportin päivitys
+        - frame-kohtaisten tilastojen nollaus
+        - render state setup
     */
 }
+
 
 void OpenGLRenderer_Clear(float r, float g, float b, float a)
 {
     glClearColor(r, g, b, a);
     glClear(GL_COLOR_BUFFER_BIT);
 }
+
 
 void OpenGLRenderer_Render(void)
 {
@@ -41,6 +50,7 @@ void OpenGLRenderer_Render(void)
     */
 }
 
+
 void OpenGLRenderer_EndFrame(void)
 {
     /*
@@ -48,9 +58,10 @@ void OpenGLRenderer_EndFrame(void)
     */
 }
 
+
 void OpenGLRenderer_Shutdown(void)
 {
-    printf("OpenGLRenderer_Shutdown called\n");
+    print_info("OpenGLRenderer shutdown");
 
     /*
         Tänne myöhemmin:
