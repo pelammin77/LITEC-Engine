@@ -374,7 +374,6 @@ void LITEC_Update()
     */
 }
 
-
 void LITEC_Render()
 {
     if (window == NULL)
@@ -383,10 +382,18 @@ void LITEC_Render()
     }
 
     /*
-        Ensin tyhjennetään ruutu.
-        Window_Render sisältää tällä hetkellä glViewport, glClearColor ja glClear.
+        Renderer hoitaa nyt ruudun tyhjennyksen.
+
+        Aiemmin tämä tehtiin näin:
+            Window_Render(window);
+
+        Window_Render kutsui lopulta GLFWWindow_Render-funktiota,
+        jossa oli glViewport, glClearColor ja glClear.
+
+        Nyt clear-vastuu siirretään LitecRendererille.
     */
-    Window_Render(window);
+    LitecRenderer_BeginFrame();
+    LitecRenderer_Clear(0.08f, 0.09f, 0.11f, 1.0f);
 
     /*
         Tässä vaiheessa deltaTime on vielä 0.0f.
@@ -395,10 +402,10 @@ void LITEC_Render()
     float deltaTime = 0.0f;
 
     /*
-        Piirretään/päivitetään layerit vasta Window_Renderin jälkeen.
+        Päivitetään/piirretään layerit rendererin clear-kutsun jälkeen.
 
         Tämä on tärkeää Nuklearille:
-            - Window_Render tekee glClear-kutsun
+            - LitecRenderer_Clear tekee glClear-kutsun
             - GuiLayer piirtää Nuklear GUI:n
             - glfwSwapBuffers näyttää lopputuloksen
     */
@@ -412,9 +419,21 @@ void LITEC_Render()
         }
     }
 
+    /*
+        Rendererille annetaan mahdollisuus tehdä frame-kohtainen lopetus.
+
+        Tällä hetkellä OpenGLRenderer_EndFrame voi olla tyhjä,
+        mutta myöhemmin siihen voidaan lisätä esimerkiksi debug-statistiikkaa
+        tai muuta renderöinnin jälkikäsittelyä.
+    */
+    LitecRenderer_EndFrame();
+
+    /*
+        Bufferien vaihto kuuluu edelleen ikkunakerrokselle / GLFW:lle.
+        Renderer ei kutsu GLFWWindow_Render-funktiota.
+    */
     glfwSwapBuffers(window->glfwWindow);
 }
-
 
 void LITEC_Shutdown()
 {
